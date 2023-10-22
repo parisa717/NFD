@@ -1,0 +1,125 @@
+
+.button {
+    padding: 12px 20px;
+    border-radius: 5px;
+    color: $color-white;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+    position: relative;
+    white-space: nowrap;
+    &::before {
+      content: "";
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: transparent;
+      border-radius: 16px;
+      transition: all 0.5s ease-in-out;
+  
+    }
+  
+    &:hover {
+      transition: all 0.5s ease-in-out;
+  
+      &::before {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #7a70702b;
+        border-radius: 16px;
+        transition: all 0.5s ease-in-out;
+  
+      }
+    }
+  
+   
+    &:disabled {
+      background-color: #EAEAEE;
+      color: $color_text;
+      box-shadow: none;
+      cursor: not-allowed;
+  
+    }
+  
+    &__primary {
+      background: linear-gradient(270deg, #091e72 0%, #464e6e 100%);
+      color: #fff;
+      box-shadow: 0px 6px 7px 0px rgba(0, 0, 0, 0.19);
+    }
+  
+    &__gray {
+      background-color: $color_gray;
+      color: $color_text;
+     
+    }
+  
+    &__secondary {
+      color: #fff;
+      background:#000;
+    }
+  
+    &__thirdbtn {
+
+        color: #fff;
+        background:#fb5a03;
+      
+    }
+  
+    &__fifthbtn {
+      
+    }
+  
+    &__white {
+     
+    }
+  
+    &__borderbot {
+        color: #091e72;
+        border-bottom: 3px solid #091e72;
+        border-radius: 0;
+        &:hover {
+            transition: all 0.5s ease-in-out;
+        
+            &::before {
+              content: "";
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              position: absolute;
+              top: 0;
+              left: 0;
+              background: #a19b9b2b;
+              border-radius: 0;
+              transition: all 0.5s ease-in-out;
+        
+            }
+          }
+        
+    }
+  }
+  
+
+ 
+
+
+
+ 
+  
+
+
+  .activeBtn{
+    border-radius: 10px;
+background: $color-secondary;
+padding: 13px 20px;
+color: #fff;
+transition: all 0.3s ease-out;
+  }

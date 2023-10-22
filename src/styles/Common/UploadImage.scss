@@ -1,0 +1,131 @@
+.profile__uploader {
+    width: 100%;
+    height: 300px;
+    background-color: #f9fafb;
+    border: 3px dashed #d1d5db;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    align-items: center;
+
+    button {}
+
+    .UploadProfile__input {
+        display: none;
+    }
+
+    .UploadProfile__label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+    .button__borderbot {
+        background-color: transparent;
+    }
+}
+
+.profile__uploader.profile__uploader--orange {
+    background: rgba($color: #EDE1D6, $alpha: 1);
+    border: 3px dashed #F48E2F;
+
+    .button__borderbot {
+        color: #F48E2F;
+        border-color: #F48E2F;
+    }
+}
+
+.MultipleImageFile {
+    .profile__uploader {
+        display: grid;
+    }
+}
+
+.upload__image-wrapper {
+    width: 100%;
+    height: 458px;
+    background: rgba($color: #EDE1D6, $alpha: 1);
+    border: 3px dashed #F48E2F;
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    align-items: center;
+
+    button {
+        background-color: transparent;
+    }
+
+    .button__borderbot {
+        color: #F48E2F;
+        border-color: #F48E2F;
+    }
+}
+
+.upload__image-wrapper--grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 21px;
+
+    @include respond(tab-port) {
+        // width: 360px !important;
+
+        grid-template-columns: 1fr;
+
+
+    }
+}
+
+.upload__image-wrapper--images {
+    .upload__image-wrapper--img {
+        width: 100%;
+        height: 331px;
+
+        border-radius: 5px;
+    }
+}
+
+.bg-silicon {
+    width: 64px;
+    height: 64px;
+
+
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    /* Note: backdrop-filter has minimal browser support */
+
+    border-radius: 24px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.newUploadWrapper {
+    height: 331px;
+
+
+    border: 3px dashed #E6E7E9;
+    border-radius: 5px;
+
+    &--text {
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 37px;
+        text-align: center;
+
+        color: #12171C;
+        margin-top: 27px;
+
+    }
+}
+
+.UploadProfile__input {
+    display: none;
+}

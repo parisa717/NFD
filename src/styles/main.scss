@@ -1,0 +1,18 @@
+@import "~tailwindcss/tailwind.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import './Dashboard/DashbiardLayout';
+@import './abstracts/variables';
+@import './abstracts/_mixins';
+
+@import "./base/font";
+
+@import "./base/base";
+@import "./base/typography";
+@import "./base/utilities";
+
+@import './Common/Menu';
+@import './Common/Sidbar';
+@import './Common/Button';
+@import './Common/UploadImage'
