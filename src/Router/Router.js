@@ -5,6 +5,7 @@ import UnAthenticated from "./UnAthenticated";
 
 const Router = () => {
   const {token}=useAuth()
+  console.log(token)
   return (
     <div>
 

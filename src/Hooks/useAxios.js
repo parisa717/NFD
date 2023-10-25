@@ -37,9 +37,10 @@ const useFetch = ({
         data: data,
         headers: !noHeader
           ? { 'Access-Control-Allow-Origin' : '*',
-              Authorization: `${token}`,
+              Authorization: `Bearer ${token}`,
             }: formdata
-            ? { "Content-Type": "multipart/form-data",  'Access-Control-Allow-Origin' : '*',Authorization: `Bearer ${token}` }:
+            ? { 'Content-Type': 'multipart/form-data',
+            'accept':  '*/*' ,Authorization: `Bearer ${token}` }:
             gzip?{
               'Accept-Encoding': 'gzip',
               'Access-Control-Allow-Origin' : '*',

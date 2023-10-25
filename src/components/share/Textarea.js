@@ -19,13 +19,9 @@ const Textarea = ({
   const error = errors[name];
   return (
     <div className={`Input relative ${className}`}>
-      <label className="d-flex">
+     <p className="d-flex label text-[17px] mb-[10px]">
         {label && label}
-        {LabelIcon &&
-          <div className={`${label ? "mx-4" : ""}`}>
-            {LabelIcon}
-          </div>}
-      </label>
+      </p>
 
       <Controller
         name={name}

@@ -1,6 +1,6 @@
 import React from 'react'
 import img from "../../../assets/img/temp/card-top.jpeg"
-const ProductCard = () => {
+const ProductCard = ({info}) => {
   return (
     <div className="max-w-lg rounded overflow-hidden shadow-lg">
     <img className="w-full" src={img} alt="Sunset in the mountains" />

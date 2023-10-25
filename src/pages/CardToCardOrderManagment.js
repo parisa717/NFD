@@ -9,6 +9,7 @@ import { useState } from "react";
 import CreateCategory from "../components/layouts/Categories/CreateCategory";
 import CreateFeatures from "../components/layouts/Fetures/CreateFeatures";
 import Button from "../components/share/Button";
+import Card from "../components/share/Card";
 import PrimayTable from "../components/share/Table";
 import Title from "../components/share/Title";
 const dataSource = [
@@ -74,7 +75,7 @@ const CardToCardOrderManagment = () => {
   ];
 
   return (
-    <div>
+    <Card>
            <Title title=' تایید سفارشات کارت به کارت'/>
       <PrimayTable
         dataSource={dataSource}
@@ -82,7 +83,7 @@ const CardToCardOrderManagment = () => {
        
       />
      
-    </div>
+    </Card>
   );
 };
 

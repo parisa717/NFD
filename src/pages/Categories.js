@@ -8,48 +8,60 @@ import { Modal } from "antd";
 import { useState } from "react";
 import CreateCategory from "../components/layouts/Categories/CreateCategory";
 import Button from "../components/share/Button";
+import Card from "../components/share/Card";
 import PrimayTable from "../components/share/Table";
 import Title from "../components/share/Title";
-const dataSource = [
-  {
-    key: "1",
-    name: "Mike",
-    age: 32,
-    address: "10 Downing Street"
-  },
-  {
-    key: "2",
-    name: "John",
-    age: 42,
-    address: "10 Downing Street"
-  }
-];
+import useFetch from "../Hooks/useAxios";
+
+
 const Categories = () => {
+  const [catdata, setcatdata] = useState([]);
+  const [catID, setcatID] = useState();
+  const [EditModal, setEditModal] = useState(false);
+  const ShowEditModal = (id)=>{
+    setcatID(id);
+    setEditModal(true)
+  }
+  const CancelEditModal = (id)=>{
+    
+    setEditModal(false)
+  }
+  const apigetCatList = useFetch({
+    method: "get",
+    url: "api/Category/All",
+    noHeader: false,
+    trigger: true,
+    setter: setcatdata,
+    argFunc: res => {
+      console.log(res);
+    },
+    errMessage: () => {}
+  });
   const columns = [
     {
       title: "عنوان",
-      dataIndex: "name",
-      key: "name"
+      dataIndex: "title",
+      key: "title"
     },
     {
       title: "زیرمجموعه",
-      dataIndex: "address",
-      key: "address"
+      dataIndex: "parentId",
+      key: "parentId"
     },
     {
       title: "نام لینک",
-      dataIndex: "sender",
-      key: "sender"
+      dataIndex: "urlName",
+      key: "urlName"
     },
     {
       title: "",
-      dataIndex: "sender",
-      key: "sender",
-      render: () => {
+      dataIndex: "id",
+      key: "id",
+      render: (row,record) => {
         return (
           <div className="flex gap-[20px]">
-            <FontAwesomeIcon icon={faTrash} />
-            <FontAwesomeIcon icon={faPenToSquare} />
+          <button >   <FontAwesomeIcon icon={faTrash} /></button>
+           <button onClick={()=>ShowEditModal(row)}  > <FontAwesomeIcon icon={faPenToSquare} /></button>
           </div>
         );
       }
@@ -70,11 +82,11 @@ const Categories = () => {
   };
 
   return (
-    <div>
-         <Title title='  دسته بندی ها'/>
+    <Card>
+      <Title title="  دسته بندی ها" />
       <div className="flex justify-end">
         {" "}<Button
-        onClick={showModal}
+          onClick={showModal}
           varient="primary"
           className="flex gap-[8px] items-center mb-[40px]"
         >
@@ -82,25 +94,46 @@ const Categories = () => {
           <div> اضافه کردن دسته بندی </div>
         </Button>
       </div>
-      <PrimayTable
-        dataSource={dataSource}
-        columns={columns}
-       
-      />
-      <Modal title="Basic Modal" footer={null} closable={true} onCancel={handleCancel}
-      okButtonProps={{
-        style: {
-          display: "none",
-        },
-      }}
-      cancelButtonProps={{
-        style: {
-          display: "none",
-        },
-      }} open={isModalOpen}>
-        <CreateCategory />
+      <PrimayTable dataSource={catdata} columns={columns} />
+      <Modal
+        title="اضافه کردن دسته بندی"
+        footer={null}
+        closable={true}
+        onCancel={handleCancel}
+        okButtonProps={{
+          style: {
+            display: "none"
+          }
+        }}
+        cancelButtonProps={{
+          style: {
+            display: "none"
+          }
+        }}
+        open={isModalOpen}
+      >
+        <CreateCategory  />
       </Modal>
-    </div>
+      <Modal
+        title="ویرایش  دسته بندی"
+        footer={null}
+        closable={true}
+        onCancel={CancelEditModal}
+        okButtonProps={{
+          style: {
+            display: "none"
+          }
+        }}
+        cancelButtonProps={{
+          style: {
+            display: "none"
+          }
+        }}
+        open={EditModal}
+      >
+        <CreateCategory edit={true} catid={catID} />
+      </Modal>
+    </Card>
   );
 };
 

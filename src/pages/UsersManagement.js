@@ -9,9 +9,11 @@ import { useState } from "react";
 import CreateCategory from "../components/layouts/Categories/CreateCategory";
 import CreateFeatures from "../components/layouts/Fetures/CreateFeatures";
 import Button from "../components/share/Button";
+import Card from "../components/share/Card";
 import Selectbox from "../components/share/Selectbox";
 import PrimayTable from "../components/share/Table";
 import Title from "../components/share/Title";
+import useFetch from "../Hooks/useAxios";
 const dataSource = [
   {
     key: "1",
@@ -28,6 +30,22 @@ const dataSource = [
 ];
 
 const UsersManagement = () => {
+  const [users, setusers] = useState()
+  const apigetCatList = useFetch({
+    method: "get",
+    url: "api/User/AllUsers",
+    params:{
+      pageNumber:1,
+      size:10
+    },
+    noHeader: false,
+    trigger: true,
+    setter: setusers,
+    argFunc: res => {
+      console.log(res);
+    },
+    errMessage: () => {}
+  });
   const Option = [
     {
         value:"A",
@@ -37,8 +55,26 @@ const UsersManagement = () => {
   const columns = [
     {
       title: "شماره تماس",
+      dataIndex: "phone",
+      key: "phone"
+    },
+    {
+      title: "نام و نام خانوادگی",
       dataIndex: "name",
-      key: "name"
+      key: "name",
+      render:(row,record)=>{
+        return(
+          <div>
+{record.firstName} {record.lastname}
+          </div>
+        )
+      }
+    },
+    
+    {
+      title: "ایمیل",
+      dataIndex: "email",
+      key: "email"
     },
     {
       title: "نقش کاربر",
@@ -50,7 +86,7 @@ const UsersManagement = () => {
                <Selectbox
        // label="نقش کاربر"
         option={Option}
-     
+      multiple
         // onChange={value => setCo(value)}
          
       /> 
@@ -58,32 +94,21 @@ const UsersManagement = () => {
         );
       }
     },
-    {
-      title: "",
-      dataIndex: "sender",
-      key: "sender",
-      render: () => {
-        return (
-          <div className="flex gap-[20px]">
-            <FontAwesomeIcon icon={faTrash} />
-            <FontAwesomeIcon icon={faPenToSquare} />
-          </div>
-        );
-      }
-    }
+    
+    
   ];
 
 
   return (
-    <div>
+    <Card>
        <Title title=' مدیریت کاربران'/>
       <PrimayTable
-        dataSource={dataSource}
+        dataSource={users}
         columns={columns}
        
       />
       
-    </div>
+    </Card>
   );
 };
 

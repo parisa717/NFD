@@ -6,53 +6,35 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import AddRoles from "../components/layouts/roles/AddRoles";
 import Title from "../components/share/Title";
+import Card from "../components/share/Card";
+import useFetch from "../Hooks/useAxios";
+import PrimayTable from "../components/share/Table";
 
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
-const getItems = panelStyle => [
-  {
-    key: "1",
-    label: "نقش اول",
-    children: (
-      <p>
-        {text}
-      </p>
-    ),
-    style: panelStyle
-  },
-  {
-    key: "2",
-    label: "نقش دوم",
-    children: (
-      <p>
-        {text}
-      </p>
-    ),
-    style: panelStyle
-  },
-  {
-    key: "3",
-    label: "نقش سوم",
-    children: (
-      <p>
-        {text}
-      </p>
-    ),
-    style: panelStyle
-  }
-];
-const panelStyle = {
-  marginBottom: 24,
-  background: "#eaeaea",
-  borderRadius: "#eaeaea",
-  border: "none"
-};
+
 const RoleManagment = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const columns = [
+    {
+      title: "عنوان",
+      dataIndex: "title",
+      key: "title"
+    },
+   
+   
+   
+  ];
+const [roles, setroles] = useState()
+  const apigetCatList = useFetch({
+    method: "get",
+    url: "api/Permission/All",
+    noHeader: false,
+    trigger: true,
+    setter: setroles,
+    argFunc: res => {
+      console.log(res);
+    },
+    errMessage: () => {}
+  });
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -65,7 +47,7 @@ const RoleManagment = () => {
     setIsModalOpen(false);
   };
   return (
-    <div>
+    <Card>
              <Title title='  نقش ها'/>
 
       <div className="flex justify-end">
@@ -78,13 +60,9 @@ const RoleManagment = () => {
           <div> اضافه کردن نقش</div>
         </Button>
       </div>
-      <Collapse
-        bordered={false}
-        defaultActiveKey={["1"]}
-        expandIcon={({ isActive }) =>
-          <CaretRightOutlined rotate={isActive ? 90 : 0} />}
-        items={getItems(panelStyle)}
-      />
+      <PrimayTable
+       dataSource={roles} 
+       columns={columns} />
         <Modal title="Basic Modal" footer={null} closable={true} onCancel={handleCancel}
       okButtonProps={{
         style: {
@@ -98,7 +76,7 @@ const RoleManagment = () => {
       }} open={isModalOpen}>
        <AddRoles/>
       </Modal>
-    </div>
+    </Card>
   );
 };
 

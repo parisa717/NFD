@@ -1,0 +1,14 @@
+.Select{
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+        background: #f9fafb;
+        padding: 10px;
+    }
+    .ant-select{
+        height: 100%;
+        width: 100%;
+    }
+     .ant-select-selector .ant-select-selection-search-input {
+        height: 100%;
+   
+    }
+}

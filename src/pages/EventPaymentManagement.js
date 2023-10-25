@@ -9,6 +9,7 @@ import { useState } from "react";
 import CreateCategory from "../components/layouts/Categories/CreateCategory";
 import CreateFeatures from "../components/layouts/Fetures/CreateFeatures";
 import Button from "../components/share/Button";
+import Card from "../components/share/Card";
 import PrimayTable from "../components/share/Table";
 import Title from "../components/share/Title";
 const dataSource = [
@@ -29,8 +30,8 @@ const EventPaymentManagement = () => {
   const columns = [
     {
       title: "مبلغ سفارش",
-      dataIndex: "name",
-      key: "name"
+      dataIndex: "price",
+      key: "price"
     },
     {
       title: "شماره سفارش",
@@ -58,7 +59,7 @@ const EventPaymentManagement = () => {
   ];
 
   return (
-    <div>
+    <Card>
                <Title title=' مدیریت پرداخت ها'/>
 
       <PrimayTable
@@ -67,7 +68,7 @@ const EventPaymentManagement = () => {
        
       />
      
-    </div>
+    </Card>
   );
 };
 

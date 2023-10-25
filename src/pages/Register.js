@@ -2,9 +2,22 @@ import React, { useState } from "react";
 import GetPhone from "../components/register/GetPhone";
 import RegisterbyCode from "../components/register/RegisterbyCode";
 import logo from "../assets/img/logo/logo.png";
+import Card from "../components/share/Card";
+import useFetch from "../Hooks/useAxios";
 const Register = () => {
   const [step, setstep] = useState(1);
   const [phone, setphone] = useState();
+  const apiPostNumber = useFetch({
+    method: "post",
+    url: "api/User/Otp/Send",
+    noHeader: true,
+    trigger: false,
+   
+    argFunc: () => {
+      setstep(2);
+    },
+    errMessage: () => {}
+  });
   return (
     <div className="Register bg-[#122160]  flex flex-col justify-center items-center h-[100vh]  overflow-hidden">
         <div className="  w-full h-[70px] flex mb-[40px] justify-center items-center">

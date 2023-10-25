@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import Button from '../../share/Button';
 import Input from '../../share/Input'
 import { Select } from 'antd';
+import useFetch from '../../../Hooks/useAxios';
 const options = [];
 for (let i = 10; i < 36; i++) {
   const value = i.toString(36) + i;
@@ -13,8 +14,9 @@ for (let i = 10; i < 36; i++) {
 }
 const AddRoles = () => {
     const { formState: { errors, isValid }, control, handleSubmit } = useForm();
+    const [postdata, setpostdata] = useState()
     const onSubmit=(data)=>{
-    console.log(data)
+    setpostdata(data)
     }
     const Option = [
         {
@@ -36,6 +38,24 @@ const AddRoles = () => {
     placeholder: 'Select Item...',
     maxTagCount: 'responsive',
   };
+  const apipostPermission = useFetch({
+    method: "post",
+    url: "api/Permission/Add",
+    noHeader: false,
+    trigger: false,
+    data: postdata,
+    argFunc: res => {
+      console.log(res);
+    },
+    errMessage: () => {}
+  });
+  useEffect(() => {
+   if(postdata){
+    apipostPermission.reFetch()
+   }
+  }, [postdata])
+  
+ 
   return (
     <div>
          <form onSubmit={handleSubmit(onSubmit)}>
@@ -51,7 +71,7 @@ const AddRoles = () => {
             }}
           />
          
-         <Select {...selectProps} />
+         {/* <Select {...selectProps} /> */}
           <Button varient="primary" className="mt-[40px]" fullwidth>
             ثبت
           </Button>

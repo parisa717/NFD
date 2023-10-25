@@ -2,6 +2,7 @@ import { Modal } from "antd";
 import { useState } from "react";
 import OrderItems from "../components/layouts/order/OrderItems";
 import Button from "../components/share/Button";
+import Card from "../components/share/Card";
 import PrimayTable from "../components/share/Table";
 import Title from "../components/share/Title";
 
@@ -79,7 +80,7 @@ const OrderManagment = () => {
   ];
   
   return (
-    <div>
+    <Card>
                <Title title=' مدیریت سفارش ها'/>
 
       <PrimayTable dataSource={dataSource} columns={columns} />
@@ -104,7 +105,7 @@ const OrderManagment = () => {
           <OrderItems />
         </Modal>
 
-    </div>
+    </Card>
   );
 };
 

@@ -37,7 +37,7 @@ const GetPhone = ({ setphone, setstep }) => {
          <h2 className="text-[32px] mb-[40px]"> شماره تلفن خود را وارد کنید</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
-          name="phone"
+          name="mobile"
           control={control}
           errors={errors}
           label="شماره تلفن"
@@ -48,7 +48,7 @@ const GetPhone = ({ setphone, setstep }) => {
           }}
         />
 
-        <Button varient="primary" className="mt-[40px]" fullwidth>
+        <Button  disabled={apiPostNumber.loading} varient="primary" className="mt-[40px]" fullwidth>
           ثبت
         </Button>
       </form>
