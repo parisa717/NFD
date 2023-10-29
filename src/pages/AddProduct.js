@@ -11,7 +11,9 @@ import Textarea from "../components/share/Textarea";
 import Title from "../components/share/Title";
 import UploadImage from "../components/share/UploadImg";
 import useFetch from "../Hooks/useAxios";
-
+import {Editor, EditorState} from 'draft-js';
+import 'draft-js/dist/Draft.css';
+import TextEditor from "../components/share/TextEditor";
 const typeOption =[
   {
     label:"ایزی کارت پیشفرض",
@@ -49,6 +51,10 @@ const AddProduct = () => {
   const [cat, setcat] = useState();
   const [prop, setprop] = useState();
   const [type, settype] = useState();
+  const [description, setdescription] = useState();
+  const [editorState, setEditorState] = React.useState(
+    () => EditorState.createEmpty(),
+  );
   const onSubmit = data => {
     console.log("data",data)
     const PropertyData = prop?.map(i=>({value:data[i.value],propertyId:i.propertyId}))
@@ -58,7 +64,7 @@ const AddProduct = () => {
     // PropertyData.forEach((i,index)=>formdata.append(`Properties[${index}]`,i))
     // cat.forEach((i,index)=>formdata.append(`Categories[${index}]`,i))
 
-     formdata.append("Description", data.Description);
+     formdata.append("Description", description);
      formdata.append("ShortDescription", data.ShortDescription);
      formdata.append("UrlName", data.UrlName);
      formdata.append("Price", data.Price);
@@ -93,6 +99,7 @@ const AddProduct = () => {
     },
     errMessage: () => {}
   });
+  
   const apipostproduct = useFetch({
     method: "post",
     url: "api/Product/Add",
@@ -101,6 +108,7 @@ const AddProduct = () => {
     data:productdata,
    formdata:true,
     argFunc: res => {
+      navigate(`/add-img-to-product/${res}`)
       
     },
     errMessage: () => {}
@@ -113,7 +121,6 @@ useEffect(() => {
     apipostproduct.reFetch()
   }
 }, [productdata])
-
   return (
     <Card>
       <Title title="اضافه کردن محصول" />
@@ -158,13 +165,11 @@ useEffect(() => {
             required: "عنوان اجباری است "
           }}
         />
-    <Selectbox
+        <Selectbox
           label="نوع"
           option={typeOption}
-          
-         
           className=" my-[20px]"
-  onChange={(value) => settype(value)}
+          onChange={(value) => settype(value)}
         />
       
         {catdata && <Selectbox
@@ -184,8 +189,8 @@ useEffect(() => {
           onChange={(value,label) => setprop(label.map(i=>({propertyId:i.value,value:i.children})))}
         />}
       <div className="grid-cols-3 grid gap-[32px]"> 
-      {
-          prop?.map(i=><PropertyvalueBox  control={control}
+        {
+            prop?.map(i=><PropertyvalueBox  control={control}
             errors={errors}
             name={i.value}
             label={i.value}  />)
@@ -202,7 +207,7 @@ useEffect(() => {
             required: "عنوان اجباری است "
           }}
         />
-         <Textarea
+         {/* <Textarea
           name="Description"
           control={control}
           errors={errors}
@@ -212,12 +217,18 @@ useEffect(() => {
           register={{
             required: "عنوان اجباری است "
           }}
-        />
+        /> */}
+         <p className="d-flex label text-[17px] mb-[10px]">
+         توضیحات
+      </p>
+        <TextEditor text={description} settext={setdescription}  />
+
         <Button
          // onClick={() => navigate("/add-img-to-product")}
           varient="primary"
           className="mt-[40px]"
           fullwidth
+          disabled={apipostproduct.loading}
         >
           ساخت محصول و رفتن به قدم بعدی
         </Button>

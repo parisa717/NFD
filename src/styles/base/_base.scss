@@ -90,3 +90,58 @@ svg.svg-inline--fa.fa-pen-to-square{
   color: #737373;
 
 }
+
+.editor-content {
+  background: #f9fafb;
+  border-radius: 5px;
+  border: 1px solid #d1d5db;
+}
+
+.notranslate.public-DraftEditor-content {
+border: 0;
+padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
+ background: transparent; 
+  border-radius: 2px;
+ box-shadow:none;
+  z-index: 2;
+  box-sizing: border-box;
+  font-size: 16px;
+  
+}
+.notranslate.public-DraftEditor-content {
+  direction: rtl;
+  text-align: right;
+  font-size: 16px;
+  min-height: 200px;
+  padding: 15px;
+}
+
+.public-DraftStyleDefault-ltr {
+  direction: rtl;
+  text-align: right;
+}
+.toolbar-item {
+  background: #fbfbfb;
+  color: #888;
+  font-size: 18px;
+  border: 0;
+  padding-top: 5px;
+  vertical-align: bottom;
+  height: 24px;
+  width: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+}
+.toolbar-container {
+  display: flex;
+  padding: 14px;
+  grid-gap: 5px;
+  border-bottom: 1px solid #d1d5dc;
+}
+.toolbar-item.selected{
+  color: #252424;
+
+}

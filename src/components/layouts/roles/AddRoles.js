@@ -4,6 +4,7 @@ import Button from '../../share/Button';
 import Input from '../../share/Input'
 import { Select } from 'antd';
 import useFetch from '../../../Hooks/useAxios';
+import Selectbox from '../../share/Selectbox';
 const options = [];
 for (let i = 10; i < 36; i++) {
   const value = i.toString(36) + i;
@@ -15,32 +16,27 @@ for (let i = 10; i < 36; i++) {
 const AddRoles = () => {
     const { formState: { errors, isValid }, control, handleSubmit } = useForm();
     const [postdata, setpostdata] = useState()
+    const [permissions, setpermissions] = useState()
     const onSubmit=(data)=>{
-    setpostdata(data)
+    setpostdata({...data,permissions:permissions})
     }
-    const Option = [
-        {
-            value:"A",
-            label:"A group"
-        }
-    ]
-    const [value, setValue] = useState(['a10', 'c12', 'h17', 'j19', 'k20']);
-  const selectProps = {
-    mode: 'multiple',
-    style: {
-      width: '100%',
-    },
-    value,
-    options,
-    onChange: (newValue) => {
-      setValue(newValue);
-    },
-    placeholder: 'Select Item...',
-    maxTagCount: 'responsive',
-  };
+ 
+    const [roles, setroles] = useState()
+    const apigetCatList = useFetch({
+      method: "get",
+      url: "api/Permission/All",
+      noHeader: false,
+      trigger: true,
+     // setter: setroles,
+      argFunc: res => {
+       setroles(res.map(i => ({ value: i.id, label: i.title })))
+      },
+      errMessage: () => {}
+    });
+
   const apipostPermission = useFetch({
     method: "post",
-    url: "api/Permission/Add",
+    url: "api/Role/AddRole",
     noHeader: false,
     trigger: false,
     data: postdata,
@@ -71,7 +67,7 @@ const AddRoles = () => {
             }}
           />
          
-         {/* <Select {...selectProps} /> */}
+    {roles &&  <Selectbox  onChange={value=>setpermissions(value)} option={roles}    mode="multiple"  />}
           <Button varient="primary" className="mt-[40px]" fullwidth>
             ثبت
           </Button>

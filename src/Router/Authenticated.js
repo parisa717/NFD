@@ -30,7 +30,7 @@ const Authenticated = () => {
           <Route path="/add-product" element={<AddProduct/>} />
           <Route path="/product" element={<Product/>} />
           <Route path="/discounts" element={<Discounts/>} />
-          <Route path="/add-img-to-product" element={<AddImgToProduct/>} />
+          <Route path="/add-img-to-product/:id" element={<AddImgToProduct/>} />
           <Route path="/consulting" element={<RequestForConsulting/>} />
 
          </Route>

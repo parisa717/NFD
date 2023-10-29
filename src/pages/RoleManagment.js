@@ -1,9 +1,9 @@
 import { Collapse, Modal, theme } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import Button from "../components/share/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import AddRoles from "../components/layouts/roles/AddRoles";
 import Title from "../components/share/Title";
 import Card from "../components/share/Card";
@@ -13,20 +13,50 @@ import PrimayTable from "../components/share/Table";
 
 const RoleManagment = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [RoleId, setRoleId] = useState(false);
   const columns = [
     {
       title: "عنوان",
       dataIndex: "title",
       key: "title"
     },
+    {
+      title: "دسترسی ها",
+      dataIndex: "permissions",
+      key: "permissions",
+      render: (row, record) => {
+        return(
+          <div className="flex gap-[10px]">
+          {
+            row.map(i=><div>{i}</div>)
+          }
+          </div>
+        )
+        }
+    },
+    // {
+    //   title: "",
+    //   dataIndex: "id",
+    //   key: "id",
+    //   render: (row, record) => {
+    //     return (
+    //       <div className="flex gap-[20px]">
+    //         <button onClick={() => setRoleId(row)}>
+    //           <FontAwesomeIcon icon={faTrash} />
+    //         </button>
+    //       </div>
+    //     );
+    //   }
+    // }
    
    
    
   ];
+  console.log(RoleId)
 const [roles, setroles] = useState()
-  const apigetCatList = useFetch({
+  const apigetRoleList = useFetch({
     method: "get",
-    url: "api/Permission/All",
+    url: "api/Role/All",
     noHeader: false,
     trigger: true,
     setter: setroles,
@@ -35,6 +65,18 @@ const [roles, setroles] = useState()
     },
     errMessage: () => {}
   });
+  const apideleteRoleList = useFetch({
+    method: "post",
+    url: "api/Role/Delete",
+    noHeader: false,
+    trigger: false,
+    params:{id:RoleId},
+    argFunc: res => {
+      console.log(res);
+    },
+    errMessage: () => {}
+  });
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -46,6 +88,12 @@ const [roles, setroles] = useState()
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  useEffect(() => {
+    if(RoleId){
+       apideleteRoleList.reFetch()
+    }
+  }, [])
+  
   return (
     <Card>
              <Title title='  نقش ها'/>

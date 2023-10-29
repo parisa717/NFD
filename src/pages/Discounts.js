@@ -77,8 +77,8 @@ const Discounts = () => {
     errMessage: () => {}
   });
   const apideleteDiscountList = useFetch({
-    method: "delete",
-    url: "api/Discount/DeleteDiscounts",
+    method: "post",
+    url: "api/Discount/DeleteDiscount",
     params: {
       id: discountId
     },
