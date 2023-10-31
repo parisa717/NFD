@@ -22,6 +22,10 @@ const Product = () => {
   const apigetproductList = useFetch({
     method: "get",
     url: "api/Product/All",
+    params:{
+      pageNumber:1,
+      size:10
+    },
     noHeader: false,
     trigger: true,
     setter: setproductdata,

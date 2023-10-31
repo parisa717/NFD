@@ -5,8 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal } from "antd";
-import { useState } from "react";
-import CreateCategory from "../components/layouts/Categories/CreateCategory";
+import { useEffect, useState } from "react";
 import CreateFeatures from "../components/layouts/Fetures/CreateFeatures";
 import Button from "../components/share/Button";
 import Card from "../components/share/Card";
@@ -25,7 +24,8 @@ const Features = () => {
   const CancelEditModal = id => {
     setEditModal(false);
   };
-  const apigetCatList = useFetch({
+  const [deleteFet, setdeleteFet] = useState()
+  const apiPropertyList = useFetch({
     method: "get",
     url: "api/Property/All",
     noHeader: false,
@@ -36,6 +36,28 @@ const Features = () => {
     },
     errMessage: () => {}
   });
+  useEffect(() => {
+    if(deleteFet){
+      apideleteFet.reFetch()
+    }
+    }, [deleteFet])
+    const deletedFeature = (id)=>{
+      setdeleteFet(id)
+    }
+    const apideleteFet = useFetch({
+      method: "post",
+      url: "api/Property/Delete",
+      noHeader: false,
+      trigger: false,
+       params: {
+        id: deleteFet
+      },
+     caller:apiPropertyList,
+      argFunc: res => {
+        console.log(res);
+      },
+      errMessage: () => {}
+    });
   const columns = [
     {
       title: "عنوان",
@@ -49,12 +71,12 @@ const Features = () => {
       render: (row, record) => {
         return (
           <div className="flex gap-[20px]">
-            <button>
+            <button onClick={()=>deletedFeature(row)}>
               {" "}<FontAwesomeIcon icon={faTrash} />
             </button>
-            <button onClick={() => ShowEditModal(row)}>
+            {/* <button onClick={() => ShowEditModal(row)}>
               {" "}<FontAwesomeIcon icon={faPenToSquare} />
-            </button>
+            </button> */}
           </div>
         );
       }
@@ -107,7 +129,7 @@ const Features = () => {
         }}
         open={isModalOpen}
       >
-        <CreateFeatures />
+        <CreateFeatures  onCancel={handleCancel} apiPropertyList={apiPropertyList} />
       </Modal>
       <Modal
         title=" ویرایش ویژگی"
@@ -126,7 +148,7 @@ const Features = () => {
         }}
         open={EditModal}
       >
-        <CreateFeatures edit={true} propid={PropertyID} />
+        <CreateFeatures onCancel={CancelEditModal} apiPropertyList={apiPropertyList} edit={true} propid={PropertyID} />
       </Modal>
     </Card>
   );

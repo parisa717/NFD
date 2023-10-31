@@ -36,7 +36,11 @@
 }
 .DashboarLayout--container{
     display: grid;
-    grid-template-columns: 1fr 3.25fr;
+    grid-template-columns: 1fr 3.25fr;  
+    
+    @include respond(tablet) {
+        grid-template-columns: 1fr ;  
+     }
 
 }
 .DashboarLayout--main{

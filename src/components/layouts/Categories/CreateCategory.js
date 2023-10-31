@@ -5,7 +5,7 @@ import Button from "../../share/Button";
 import Input from "../../share/Input";
 import Selectbox from "../../share/Selectbox";
 
-const CreateCategory = ({ catid, edit }) => {
+const CreateCategory = ({ catid, edit,apigetCatList,onCancel }) => {
   console.log(edit);
   const {
     formState: { errors, isValid },
@@ -17,7 +17,7 @@ const CreateCategory = ({ catid, edit }) => {
   const [CategoriesPostData, setCategoriesPostData] = useState();
   const [CatParents, setCatParents] = useState();
 
-  const apigetCatList = useFetch({
+  const apigetCatLists = useFetch({
     method: "get",
     url: "api/Category/All",
     noHeader: false,
@@ -53,19 +53,21 @@ const CreateCategory = ({ catid, edit }) => {
     noHeader: false,
     trigger: false,
     data: CategoriesPostData,
+    caller:apigetCatList,
     argFunc: res => {
-      console.log(res);
+      onCancel()
     },
     errMessage: () => {}
   });
   const updateCat = useFetch({
-    method: "put",
+    method: "post",
     url: "api/Category/Update",
     noHeader: false,
     trigger: false,
     data: CategoriesPostData,
+    caller:apigetCatList,
     argFunc: res => {
-      console.log(res);
+      onCancel()
     },
     errMessage: () => {}
   });

@@ -16,11 +16,11 @@ const CounterCard = ({title,icon,persentage,value}) => {
                 </h4>
             </div>
             <div className='my-[20px] text-[20px] mr-8'>{value}</div>
-            <div className='flex justify-end gap-[8px] items-center text-[#0fa442] text-[15px]'>
+            {/* <div className='flex justify-end gap-[8px] items-center text-[#0fa442] text-[15px]'>
                 <p>27%</p>
                 <img src={arrowUp}/>
                 
-            </div>
+            </div> */}
         </div>
     </div>
   )

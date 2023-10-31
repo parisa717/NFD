@@ -26,29 +26,20 @@ const AddImgToProduct = () => {
        const formdata= new FormData()
       
        formdata.append("ProductId",id)
-       formdata.append("Image",file.file)
-       formdata.append("ImageUrl",file.data_url)
+       files.forEach((i,index)=>formdata.append(`Image[${index}]`,i.file))
+       files.forEach((i,index)=>formdata.append(`ImageUrl[${index}]`,i.data_url))
+       
        setpostData(formdata)
       
-       apipostproduct.reFetch() 
     }
-    const onSubmit = ()=>{
-      
-       
-        files.forEach(element => {
-          hanldeFormdata(element);
-         
-        });
-     
-    }
-
+   
     
  
 
   useEffect(() => {
    if(postData){
-   // apipostproduct.reFetch()
-   console.log(`postData`,postData)
+    apipostproduct.reFetch()
+   
 
    }
   }, [postData])
@@ -58,7 +49,7 @@ const AddImgToProduct = () => {
     <Title title="اضافه کردن  مدیا به محصول" />
 
           <MultipleImageFile file={files} setfile={setfiles}/>
-            <Button onClick={onSubmit} varient="primary" className="mt-[40px]" fullwidth>
+            <Button onClick={hanldeFormdata} varient="primary" className="mt-[40px]" fullwidth>
                 ثبت
             </Button>
     </Card>

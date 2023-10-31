@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import DashboarLayout from '../components/common/DashboarLayout'
+import { PermissionContextProvider } from '../context/PermissionContext'
 import AddImgToProduct from '../pages/AddImgToProduct'
 import AddProduct from '../pages/AddProduct'
 import CardToCardOrderManagment from '../pages/CardToCardOrderManagment'
@@ -17,6 +18,7 @@ import UsersManagement from '../pages/UsersManagement'
 const Authenticated = () => {
   return (
     <div>
+      <PermissionContextProvider>
          <Routes>
           <Route element={<DashboarLayout />}>
           <Route path="/" element={<Dashboard />} />
@@ -35,6 +37,7 @@ const Authenticated = () => {
 
          </Route>
         </Routes>
+        </PermissionContextProvider>
     </div>
   )
 }

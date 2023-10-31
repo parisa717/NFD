@@ -1,4 +1,5 @@
 .Select{
+    min-width: 150px;
     .ant-select:not(.ant-select-customize-input) .ant-select-selector{
         background: #f9fafb;
         padding: 10px;
@@ -11,4 +12,5 @@
         height: 100%;
    
     }
+
 }

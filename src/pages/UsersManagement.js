@@ -46,12 +46,31 @@ const UsersManagement = () => {
     },
     errMessage: () => {}
   });
-  const Option = [
-    {
-        value:"A",
-        label:"A group"
-    }
-]
+  const [roles, setroles] = useState()
+  const apigetRoleList = useFetch({
+    method: "get",
+    url: "api/Role/All",
+    noHeader: false,
+    trigger: true,
+    setter: setroles,
+    argFunc: res => {
+      setroles(res.map(i => ({ value: i.id, label: i.title })))
+    },
+    errMessage: () => {}
+  });
+  const [rolesId, setrolesId] = useState()
+  const apiChangeRoles = useFetch({
+    method: "post",
+    url: "api/User/UserRole",
+    noHeader: false,
+    trigger: false,
+    setter: setroles,
+    argFunc: res => {
+     
+    },
+    errMessage: () => {}
+  });
+ console.log(roles)
   const columns = [
     {
       title: "شماره تماس",
@@ -80,16 +99,17 @@ const UsersManagement = () => {
       title: "نقش کاربر",
       dataIndex: "sender",
       key: "sender",
-      render: () => {
+      render: (row,record) => {
         return (
           <div className="flex gap-[20px]">
-               <Selectbox
+            {roles &&   <Selectbox
        // label="نقش کاربر"
-        option={Option}
-      multiple
-        // onChange={value => setCo(value)}
+        option={roles}
+      value={rolesId}
+      defaultValue={record.role ?record.role :"" }
+         onChange={value => console.log(value)}
          
-      /> 
+      /> }
           </div>
         );
       }

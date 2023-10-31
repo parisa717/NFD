@@ -5,7 +5,7 @@ import Button from '../../share/Button';
 import Input from '../../share/Input'
 import Selectbox from '../../share/Selectbox';
 
-const CreateFeatures = ({edit,propid}) => {
+const CreateFeatures = ({edit,propid,onCancel,apiPropertyList}) => {
   
 const {
   formState: { errors, isValid },
@@ -21,6 +21,7 @@ const apigetCatList = useFetch({
   url: "api/Property/All",
   noHeader: false,
   trigger: true,
+  
   argFunc: res => {
     setcatdata(res.map(i => ({ value: i.id, label: i.tittle })));
   },
@@ -32,6 +33,7 @@ const apigetCat = useFetch({
   noHeader: false,
   trigger: edit,
   params: { id: propid },
+  
   argFunc: res => {
     console.log(res);
     reset({ tittle: res.tittle});
@@ -52,19 +54,21 @@ const apipostCat = useFetch({
   noHeader: false,
   trigger: false,
   data: CategoriesPostData,
+  caller:apiPropertyList,
   argFunc: res => {
-    console.log(res);
+    onCancel()
   },
   errMessage: () => {}
 });
 const updateCat = useFetch({
-  method: "put",
+  method: "post",
   url: "api/Property/Update",
   noHeader: false,
   trigger: false,
   data: CategoriesPostData,
+  caller:apiPropertyList,
   argFunc: res => {
-    console.log(res);
+    onCancel()
   },
   errMessage: () => {}
 });

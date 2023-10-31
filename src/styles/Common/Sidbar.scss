@@ -8,4 +8,29 @@
     position: fixed;
     top: 70px;
     box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
+    @include respond(tablet) {
+        display: none;
+     }
 }
+.ResponsiveSidbar{
+    width: 0;
+    display: none;
+    z-index: 99999;
+    background: #ffffff;
+    bottom: 0;
+    margin-top: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
+    overflow: hidden;
+    @include respond(tablet) {
+        display: block;
+     }
+   
+} 
+.ResponsiveSidbar__show{
+    width: 280px;
+    transition: all 0.2s ease-in;
+        }

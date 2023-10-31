@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateCategory from "../components/layouts/Categories/CreateCategory";
 import Button from "../components/share/Button";
 import Card from "../components/share/Card";
@@ -17,6 +17,7 @@ import useFetch from "../Hooks/useAxios";
 const Categories = () => {
   const [catdata, setcatdata] = useState([]);
   const [catID, setcatID] = useState();
+  const [deleteCat, setdeleteCat] = useState();
   const [EditModal, setEditModal] = useState(false);
   const ShowEditModal = (id)=>{
     setcatID(id);
@@ -31,7 +32,31 @@ const Categories = () => {
     url: "api/Category/All",
     noHeader: false,
     trigger: true,
-    setter: setcatdata,
+    setter:setcatdata,
+   
+    argFunc: res => {
+      console.log(res);
+    },
+    errMessage: () => {}
+  });
+  const deletedCategories = (id)=>{
+    setdeleteCat(id)
+  }
+  useEffect(() => {
+  if(deleteCat){
+    apiDeleteCat.reFetch()
+  }
+  }, [deleteCat])
+  
+  const apiDeleteCat = useFetch({
+    method: "post",
+    url: "api/Category/Delete",
+    noHeader: false,
+    trigger: false,
+     params: {
+      id: deleteCat
+    },
+   caller:apigetCatList,
     argFunc: res => {
       console.log(res);
     },
@@ -60,7 +85,7 @@ const Categories = () => {
       render: (row,record) => {
         return (
           <div className="flex gap-[20px]">
-          <button >   <FontAwesomeIcon icon={faTrash} /></button>
+          <button onClick={()=>deletedCategories(row)} >   <FontAwesomeIcon icon={faTrash} /></button>
            <button onClick={()=>ShowEditModal(row)}  > <FontAwesomeIcon icon={faPenToSquare} /></button>
           </div>
         );
@@ -112,7 +137,7 @@ const Categories = () => {
         }}
         open={isModalOpen}
       >
-        <CreateCategory  />
+        <CreateCategory onCancel={handleCancel}  apigetCatList={apigetCatList} />
       </Modal>
       <Modal
         title="ویرایش  دسته بندی"
@@ -131,7 +156,7 @@ const Categories = () => {
         }}
         open={EditModal}
       >
-        <CreateCategory edit={true} catid={catID} />
+        <CreateCategory onCancel={CancelEditModal} apigetCatList={apigetCatList} edit={true} catid={catID} />
       </Modal>
     </Card>
   );

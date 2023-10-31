@@ -12,6 +12,7 @@ import Button from "../components/share/Button";
 import Card from "../components/share/Card";
 import PrimayTable from "../components/share/Table";
 import Title from "../components/share/Title";
+import useFetch from "../Hooks/useAxios";
 const dataSource = [
   {
     key: "1",
@@ -34,36 +35,51 @@ const EventPaymentManagement = () => {
       key: "price"
     },
     {
-      title: "شماره سفارش",
-      dataIndex: "name",
-      key: "name"
+      title: "تعداد سفارش",
+      dataIndex: "count",
+      key: "count"
     },
     {
-      title: "تاریخ سفارش",
-      dataIndex: "name",
-      key: "name"
+      title: "شماره سفارش",
+      dataIndex: "orderNumber",
+      key: "orderNumber"
     },
     {
       title: "نوع پرداخت",
-      dataIndex: "name",
-      key: "name"
+      dataIndex: "type",
+      key: "type"
     },
     {
       title: "وضعیت پرداخت",
-      dataIndex: "name",
-      key: "name"
+      dataIndex: "state",
+      key: "state"
     },
 
    
    
   ];
-
+  const [PaymentList, setPaymentList] = useState([])
+  const apigetCatList = useFetch({
+    method: "get",
+    url: "api/PaymentLog/All",
+    noHeader: false,
+    trigger: true,
+    params:{
+      pageNumber:1,
+      size:10
+    },
+    setter: setPaymentList,
+    argFunc: res => {
+      console.log(res);
+    },
+    errMessage: () => {}
+  });
   return (
     <Card>
                <Title title=' مدیریت پرداخت ها'/>
 
       <PrimayTable
-        dataSource={dataSource}
+        dataSource={PaymentList}
         columns={columns}
        
       />

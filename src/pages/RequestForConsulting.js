@@ -12,6 +12,7 @@ import Button from "../components/share/Button";
 import Card from "../components/share/Card";
 import PrimayTable from "../components/share/Table";
 import Title from "../components/share/Title";
+import useFetch from "../Hooks/useAxios";
 const dataSource = [
   {
     key: "1",
@@ -27,11 +28,27 @@ const dataSource = [
   }
 ];
 const RequestForConsulting = () => {
+  const [ConsulingerList, setConsulingList] = useState([])
+  const apigetCatList = useFetch({
+    method: "get",
+    url: "api/Counseling/All",
+    noHeader: false,
+    trigger: true,
+    params:{
+      pageNumber:1,
+      size:10
+    },
+    setter: setConsulingList,
+    argFunc: res => {
+      console.log(res);
+    },
+    errMessage: () => {}
+  });
   const columns = [
     {
       title: "شماره تماس",
-      dataIndex: "name",
-      key: "name"
+      dataIndex: "phone",
+      key: "phone"
     },
     {
       title: "تاریخ درخواست",
@@ -48,7 +65,7 @@ const RequestForConsulting = () => {
        <Title title=' درخواست های مشاوره'/>
       
       <PrimayTable
-        dataSource={dataSource}
+        dataSource={ConsulingerList}
         columns={columns}
        
       />
