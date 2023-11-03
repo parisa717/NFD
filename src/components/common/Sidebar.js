@@ -10,106 +10,121 @@ import consulting from "../../assets/img/iconsidebar/user-search.svg";
 import admin from "../../assets/img/iconsidebar/user-tick.svg";
 import { Link, NavLink } from "react-router-dom";
 import { usePermissionInfo } from "../../context/PermissionContext";
+import { useEffect, useState } from "react";
 
 const Sidebar = () => {
-  const {Permissioninfo} = usePermissionInfo()
+  const { Permissioninfo } = usePermissionInfo();
+  const [array, setarray] = useState([]);
   const arr = [
     {
       title: "داشبورد ادمین",
       icon: counter,
-      url: "/",
-      
+      url: "/"
     },
     {
       title: "تعریف دسته بندی",
       icon: categories,
       url: "/categories",
-      role:6
+      role: 6
     },
     {
       title: "تعریف ویژگی",
       icon: feature,
       url: "/features",
-      role:8
-
+      role: 8
     },
     {
       title: "تعریف محصول",
       icon: product,
       url: "/product",
-      role:7
-
+      role: 7
     },
     {
       title: "مدیریت سفارشات",
       icon: order,
       url: "/orders",
-      role:9
-
+      role: 9
     },
     {
       title: "مدیریت کاربران",
       icon: user,
       url: "/users",
-      role:22
-
+      role: 22
     },
     {
       title: "مدیریت مقام ها",
       icon: user,
       url: "/roles",
-      role:10
-
+      role: 10
     },
     {
       title: "مدیریت رویداد های پرداخت",
       icon: payment,
       url: "/payments",
-      role:11
-
+      role: 11
     },
     {
       title: "مدیریت سفارشات کارت به کارت",
       icon: cardtocard,
       url: "/payments-card",
-      role:9
-
+      role: 9
     },
     {
       title: "کد تخفیف",
       icon: cardtocard,
       url: "/discounts",
-      role:12
-
+      role: 12
     },
     {
       title: "درخواست های مشاوره",
       icon: consulting,
       url: "/consulting",
-      role:14
-
-    },
-   
+      role: 14
+    }
   ];
-  //console.log(Permissioninfo.http://schemas.microsoft.com/ws/2008/06/identity/claims/role )
+  useEffect(
+    () => {
+      if (Permissioninfo) {
+        for (let x of arr) {
+          for (let y of Permissioninfo) {
+            if (x.role === y) {
+              setarray(prev=>[...prev,x]);
+            }
+          }
+        }
+      }
+    },
+    [Permissioninfo]
+  );
+
   return (
     <div className="vertical-menu">
-
-      <div className="h-[100]" >
+      <div className="h-[100]">
         <div className="flex flex-col items-center text-[18px] mt-[40px]">
           <p className="text-[#3646ab]">سوپر ادمین</p>
           <p className="text-[#79797c] mt-[20px]">۰۹۱۳۷۹۳۰۳۵۷ +</p>
         </div>
         <ul className="px-[30px] mt-[40px]">
-          {arr.map(i=><li className="my-[10px] py-[10px] px-[5px] text-[16px]" key={i.title}><NavLink  className={({ isActive, isPending }) =>
-    isPending ? "pending" : isActive ? "active-router" : ""
-  } to={i.url}>
-            <div className="flex gap-[10px] items-center text-[#121935]">
-            <img src={i.icon} alt={i.title} />
+          {array.map(i =>
+            <li
+              className="my-[10px] py-[10px] px-[5px] text-[16px]"
+              key={i.title}
+            >
+              <NavLink
+                className={({ isActive, isPending }) =>
+                  isPending ? "pending" : isActive ? "active-router" : ""}
+                to={i.url}
+              >
+                <div className="flex gap-[10px] items-center text-[#121935]">
+                  <img src={i.icon} alt={i.title} />
 
-              <div>{i.title}</div>
-            </div>
-          </NavLink></li>)}
+                  <div>
+                    {i.title}
+                  </div>
+                </div>
+              </NavLink>
+            </li>
+          )}
         </ul>
       </div>
     </div>

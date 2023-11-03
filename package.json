@@ -26,6 +26,7 @@
     "draft-js-static-toolbar-plugin": "^3.0.1",
     "draft-js-utils": "^1.4.1",
     "draftjs-to-html": "^0.9.1",
+    "he": "^1.2.0",
     "immutable": "^5.0.0-beta.4",
     "jalali-moment": "^3.3.11",
     "js-cookie": "^3.0.5",
