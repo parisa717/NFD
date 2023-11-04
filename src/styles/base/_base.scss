@@ -180,3 +180,18 @@ input[type=number] {
    }
 }
 }
+.SearchInput{
+  button.ant-btn.ant-btn-primary.ant-input-search-button {
+    background: #112374;
+    padding: 11px;
+  }
+  input.ant-input{
+  padding: 11px 11px;
+  }
+  .ant-input-search >.ant-input-group >.ant-input-group-addon:last-child {
+    inset-inline-start: -1px;
+    padding: 0;
+    border: 0;
+    background: #112374;
+}
+}

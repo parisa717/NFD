@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import AddDiscount from "../components/layouts/Discount/AddDiscount";
 import Button from "../components/share/Button";
 import Card from "../components/share/Card";
+import SearchInput from "../components/share/SearchInput";
 import PrimayTable from "../components/share/Table";
 import Title from "../components/share/Title";
 import useFetch from "../Hooks/useAxios";
@@ -111,11 +112,33 @@ const Discounts = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const [searchtext, setsearchtext] = useState("");
 
+  const apiSearchDiscountList = useFetch({
+    method: "get",
+    url: `api/Discount/Search/${searchtext}`,
+    noHeader: false,
+    trigger: false,
+    setter:setdiscount,
+   
+    argFunc: res => {
+      console.log(res);
+    },
+    errMessage: () => {}
+  });
+  
+  useEffect(() => {
+    if(searchtext.length > 0){
+      apiSearchDiscountList.reFetch()
+    }else{
+      apigetDiscountList.reFetch()
+    }
+  }, [searchtext])
   return (
     <Card>
       <Title title=" کد تخفیف" />
-      <div className="flex justify-end">
+      <div className="flex justify-between">
+      <SearchInput setsearchtext={setsearchtext}  />
         {" "}<Button
           onClick={showModal}
           varient="primary"
@@ -125,6 +148,8 @@ const Discounts = () => {
           <div> اضافه کردن کد تخفیف</div>
         </Button>
       </div>
+     
+
       <PrimayTable dataSource={discount} columns={columns} />
       <Modal
         title="Basic Modal"

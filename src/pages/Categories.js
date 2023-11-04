@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import CreateCategory from "../components/layouts/Categories/CreateCategory";
 import Button from "../components/share/Button";
 import Card from "../components/share/Card";
+import SearchInput from "../components/share/SearchInput";
 import PrimayTable from "../components/share/Table";
 import Title from "../components/share/Title";
 import useFetch from "../Hooks/useAxios";
@@ -31,7 +32,7 @@ const Categories = () => {
     method: "get",
     url: "api/Category/All",
     noHeader: false,
-    trigger: true,
+    trigger: false,
     setter:setcatdata,
    
     argFunc: res => {
@@ -39,6 +40,29 @@ const Categories = () => {
     },
     errMessage: () => {}
   });
+  const [searchtext, setsearchtext] = useState("");
+
+  const apiSearchCatList = useFetch({
+    method: "get",
+    url: `api/Category/Search/${searchtext}`,
+    noHeader: false,
+    trigger: false,
+    setter:setcatdata,
+   
+    argFunc: res => {
+      console.log(res);
+    },
+    errMessage: () => {}
+  });
+  
+  useEffect(() => {
+    if(searchtext.length > 0){
+      apiSearchCatList.reFetch()
+    }else{
+      apigetCatList.reFetch()
+    }
+  }, [searchtext])
+  
   const deletedCategories = (id)=>{
     setdeleteCat(id)
   }
@@ -109,7 +133,9 @@ const Categories = () => {
   return (
     <Card>
       <Title title="  دسته بندی ها" />
-      <div className="flex justify-end">
+      
+      <div className="flex justify-between">
+      <SearchInput setsearchtext={setsearchtext}  />
         {" "}<Button
           onClick={showModal}
           varient="primary"
@@ -118,6 +144,7 @@ const Categories = () => {
           <FontAwesomeIcon icon={faPlus} />
           <div> اضافه کردن دسته بندی </div>
         </Button>
+        
       </div>
       <PrimayTable dataSource={catdata} columns={columns} />
       <Modal

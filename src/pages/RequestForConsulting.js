@@ -5,11 +5,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateCategory from "../components/layouts/Categories/CreateCategory";
 import CreateFeatures from "../components/layouts/Fetures/CreateFeatures";
 import Button from "../components/share/Button";
 import Card from "../components/share/Card";
+import SearchInput from "../components/share/SearchInput";
 import PrimayTable from "../components/share/Table";
 import Title from "../components/share/Title";
 import useFetch from "../Hooks/useAxios";
@@ -33,7 +34,7 @@ const RequestForConsulting = () => {
     method: "get",
     url: "api/Counseling/All",
     noHeader: false,
-    trigger: true,
+    trigger: false,
     params:{
       pageNumber:1,
       size:10
@@ -59,11 +60,33 @@ const RequestForConsulting = () => {
   
   ];
 
+  const [searchtext, setsearchtext] = useState("");
+  useEffect(() => {
+    if(searchtext.length > 0){
+      apiSearchCatList.reFetch()
+    }else{
+      apigetCatList.reFetch()
+    }
+  }, [searchtext])
+  const apiSearchCatList = useFetch({
+    method: "get",
+    url: `api/Counseling/Search/${searchtext}`,
+    noHeader: false,
+    trigger: false,
+    setter:setConsulingList,
+   
+    argFunc: res => {
+      console.log(res);
+    },
+    errMessage: () => {}
+  });
 
   return (
     <Card>
        <Title title=' درخواست های مشاوره'/>
-      
+
+      <SearchInput setsearchtext={setsearchtext}  />
+
       <PrimayTable
         dataSource={ConsulingerList}
         columns={columns}

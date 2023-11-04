@@ -9,6 +9,7 @@ import Title from "../components/share/Title";
 import Card from "../components/share/Card";
 import useFetch from "../Hooks/useAxios";
 import PrimayTable from "../components/share/Table";
+import SearchInput from "../components/share/SearchInput";
 
 
 const RoleManagment = () => {
@@ -93,12 +94,34 @@ const [roles, setroles] = useState()
        apideleteRoleList.reFetch()
     }
   }, [])
+  const [searchtext, setsearchtext] = useState("");
+
+  const apiSearchRoleList = useFetch({
+    method: "get",
+    url: `api/Role/Search/${searchtext}`,
+    noHeader: false,
+    trigger: false,
+    setter:setroles,
+   
+    argFunc: res => {
+      console.log(res);
+    },
+    errMessage: () => {}
+  });
   
+  useEffect(() => {
+    if(searchtext.length > 0){
+      apiSearchRoleList.reFetch()
+    }else{
+      apigetRoleList.reFetch()
+    }
+  }, [searchtext])
   return (
     <Card>
              <Title title='  نقش ها'/>
 
-      <div className="flex justify-end">
+      <div className="flex justify-between">
+      <SearchInput setsearchtext={setsearchtext}  />
         {" "}<Button
           onClick={showModal}
           varient="primary"
