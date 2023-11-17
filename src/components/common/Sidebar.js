@@ -8,9 +8,10 @@ import payment from "../../assets/img/iconsidebar/empty-wallet.svg";
 import cardtocard from "../../assets/img/iconsidebar/empty-wallet-change.svg";
 import consulting from "../../assets/img/iconsidebar/user-search.svg";
 import admin from "../../assets/img/iconsidebar/user-tick.svg";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { usePermissionInfo } from "../../context/PermissionContext";
 import { useEffect, useState } from "react";
+import { useAuth } from "../../context/authContext";
 
 const Sidebar = () => {
   const { Permissioninfo } = usePermissionInfo();
@@ -96,7 +97,13 @@ const Sidebar = () => {
     },
     [Permissioninfo]
   );
-
+  const { authDispatch } = useAuth();
+  const navigate = useNavigate();
+  const LogoutFunc = ()=>{
+    authDispatch({ type: 'LOGOUT' });
+    navigate('/register', { replace: true });
+  
+  }
   return (
     <div className="vertical-menu">
       <div className="h-[100]">
@@ -106,8 +113,8 @@ const Sidebar = () => {
         </div>
         <ul className="px-[30px] mt-[40px]">
           {array.map(i =>
-            <li
-              className="my-[10px] py-[10px] px-[5px] text-[16px]"
+            <li 
+              className="my-[10px] py-[10px] px-[5px] text-[16px] cursor-pointer"
               key={i.title}
             >
               <NavLink
@@ -125,6 +132,9 @@ const Sidebar = () => {
               </NavLink>
             </li>
           )}
+          <li onClick={LogoutFunc} className=" cursor-pointer my-[10px] py-[10px] px-[5px] text-[16px]">
+  خروج
+          </li>
         </ul>
       </div>
     </div>

@@ -23,8 +23,8 @@ const RoleManagment = () => {
     },
     {
       title: "دسترسی ها",
-      dataIndex: "permissions",
-      key: "permissions",
+      dataIndex: "permissionsName",
+      key: "permissionsName",
       render: (row, record) => {
         return(
           <div className="flex gap-[10px]">
@@ -35,20 +35,20 @@ const RoleManagment = () => {
         )
         }
     },
-    // {
-    //   title: "",
-    //   dataIndex: "id",
-    //   key: "id",
-    //   render: (row, record) => {
-    //     return (
-    //       <div className="flex gap-[20px]">
-    //         <button onClick={() => setRoleId(row)}>
-    //           <FontAwesomeIcon icon={faTrash} />
-    //         </button>
-    //       </div>
-    //     );
-    //   }
-    // }
+  {
+    title: "",
+    dataIndex: "id",
+    key: "id",
+    render: (row, record) => {
+      return (
+        <div className="flex gap-[20px]">
+          <button onClick={() => setRoleId(row)}>
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
+        </div>
+      );
+    }
+  }
    
    
    
@@ -57,10 +57,14 @@ const RoleManagment = () => {
 const [roles, setroles] = useState()
   const apigetRoleList = useFetch({
     method: "get",
-    url: "api/Role/All",
+    url: "api/Role/AllPaging",
     noHeader: false,
     trigger: true,
     setter: setroles,
+    params:{
+      pageNumber:1,
+      size:10
+    },
     argFunc: res => {
       console.log(res);
     },
@@ -93,7 +97,7 @@ const [roles, setroles] = useState()
     if(RoleId){
        apideleteRoleList.reFetch()
     }
-  }, [])
+  }, [RoleId])
   const [searchtext, setsearchtext] = useState("");
 
   const apiSearchRoleList = useFetch({
@@ -134,7 +138,7 @@ const [roles, setroles] = useState()
       <PrimayTable
        dataSource={roles} 
        columns={columns} />
-        <Modal title="Basic Modal" footer={null} closable={true} onCancel={handleCancel}
+        <Modal title=" اضافه کردن نقش" footer={null} closable={true} onCancel={handleCancel}
       okButtonProps={{
         style: {
           display: "none",
@@ -145,7 +149,7 @@ const [roles, setroles] = useState()
           display: "none",
         },
       }} open={isModalOpen}>
-       <AddRoles/>
+       <AddRoles onCancel={handleCancel}/>
       </Modal>
     </Card>
   );

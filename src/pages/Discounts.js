@@ -6,6 +6,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal } from "antd";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import AddDiscount from "../components/layouts/Discount/AddDiscount";
 import Button from "../components/share/Button";
 import Card from "../components/share/Card";
@@ -39,7 +40,12 @@ const Discounts = () => {
     {
       title: "نوع کد تخفیف",
       dataIndex: "type",
-      key: "type"
+      key: "type",
+      render:(row,record)=>{
+        return(
+          <div>{row === 0 ? "مقداری":"درصدی"}</div>
+        )
+      }
     },
     {
       title: "مقدار تخفیف",
@@ -85,10 +91,13 @@ const Discounts = () => {
     },
     noHeader: false,
     trigger: false,
+    caller:apigetDiscountList,
     argFunc: res => {
-      console.log(res);
+     toast.success("کد تخفیف با موفقیت پاک شد")
     },
-    errMessage: () => {}
+    errMessage: () => {
+      setdiscountId()
+    }
   });
   useEffect(
     () => {
@@ -152,7 +161,7 @@ const Discounts = () => {
 
       <PrimayTable dataSource={discount} columns={columns} />
       <Modal
-        title="Basic Modal"
+        title="اضافه کردن کد تخفیف"
         footer={null}
         closable={true}
         onCancel={handleCancel}

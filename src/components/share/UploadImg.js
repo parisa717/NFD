@@ -64,7 +64,7 @@ console.log(file)
         className={`profile__uploader  relative ${className} ${orange
           ? "profile__uploader--orange"
           : ""}`}
-        style={{ backgroundImage: `url(${typeof file === "string" ? file : imagePreviewUrl})` }}
+        style={{ backgroundImage: `url(${typeof(file) === "string" ? defaultImage : imagePreviewUrl})` }}
       >
         <div className="profile__uploader--cover">
           {/* <label htmlFor="image__cover--perview">

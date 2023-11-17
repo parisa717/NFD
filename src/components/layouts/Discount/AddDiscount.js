@@ -28,8 +28,12 @@ const AddDiscount = ({apigetDiscountList,onCancel}) => {
     caller:apigetDiscountList,
     argFunc: res => {
       onCancel()
+      reset()
     },
-    errMessage: () => {}
+    errMessage: () => {
+      reset()
+
+    }
   });
  
   const onSubmit = data => {

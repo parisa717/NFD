@@ -13,8 +13,8 @@ for (let i = 10; i < 36; i++) {
     value,
   });
 }
-const AddRoles = () => {
-    const { formState: { errors, isValid }, control, handleSubmit } = useForm();
+const AddRoles = ({onCancel}) => {
+    const { formState: { errors, isValid }, control,reset, handleSubmit } = useForm();
     const [postdata, setpostdata] = useState()
     const [permissions, setpermissions] = useState()
     const onSubmit=(data)=>{
@@ -42,6 +42,9 @@ const AddRoles = () => {
     data: postdata,
     argFunc: res => {
       console.log(res);
+      onCancel()
+      reset()
+      
     },
     errMessage: () => {}
   });

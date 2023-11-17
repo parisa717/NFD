@@ -33,7 +33,7 @@ const useFetch = ({
         method: method,
         url: !!pagination
           ? `${API_URL}/${url}/?page=${pagination.current}&pageSize=${pagination.pageSize}`
-          : `${API_URL}/${url}/`,
+          : `${API_URL}/${url}`,
         data: data,
         headers: !noHeader
           ? { 'Access-Control-Allow-Origin' : '*',

@@ -75,7 +75,7 @@ const Product = () => {
       </div>
       <div className="grid grid-cols-3 gap-[32px]">
        {
-         productdata.map(i=><ProductCard info={i} />)
+         productdata.map(i=><ProductCard apigetproductList={apigetproductList} info={i} />)
        }
       </div>
     </Card>

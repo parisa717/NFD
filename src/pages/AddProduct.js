@@ -71,8 +71,12 @@ const AddProduct = () => {
      formdata.append("Type", type);
      formdata.append("ImageCover", file,file.name);
      formdata.append("CovermageName", file.name);
-    formdata.append("Properties", PropertyData);
-    formdata.append("Categories", cat);
+    PropertyData.forEach(element => {
+      formdata.append("Properties",JSON.stringify(element));
+    })
+    cat.forEach(element => {
+      formdata.append("Categories",element);
+    });
      setproductdata(formdata)
   };
   const [catdata, setcatdata] = useState();
@@ -115,7 +119,7 @@ const AddProduct = () => {
   });
 
   const navigate = useNavigate();
-  
+  console.log(cat)
 useEffect(() => {
   if(productdata){
     apipostproduct.reFetch()
@@ -178,7 +182,7 @@ useEffect(() => {
             mode="multiple"
          
           className=" my-[20px]"
-  onChange={(value,label) => setcat(label.map(i=>({propertyId:i.value,value:i.children})))}
+  onChange={(value,label) => setcat(value)}
         />
       } 
       {Propertylist && <Selectbox

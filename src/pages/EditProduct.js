@@ -15,6 +15,7 @@ import {Editor, EditorState} from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import TextEditor from "../components/share/TextEditor";
 import { set } from "immutable";
+import toast from "react-hot-toast";
 const typeOption =[
   {
     label:"ایزی کارت پیشفرض",
@@ -78,47 +79,33 @@ const EditProduct = () => {
   });
   const apiProductInfoCategries = useFetch({
     method: "get",
-    url: "api/CategoryToProduct/GetById",
+    url: `api/CategoryToProduct/AllByProductId/${parseInt(id)}`,
     noHeader: false,
     trigger: true,
-    params:{
-        id:id
-    },
-    setter: setProductInfoCategories,
+   
     argFunc: res => {
      setcat(res)
       console.log("cat",res) ;
-      
+      //setProductInfoCategories(res)
     },
     errMessage: () => {}
   });
+  console.log(typeof(parseInt(id) ))
   const apiProductInfoFeatures = useFetch({
     method: "get",
-    url: "api/ProductProperties/GetById",
+    url: `api/ProductProperties/AllByProductId/${parseInt(id)}`,
     noHeader: false,
     trigger: true,
-    params:{
-        id:id
-    },
-    setter: setProductInfoCategories,
+    // params:{
+    //     id:id
+    // },
+    setter: setProductInfoFeatures,
     argFunc: res => {
-     setcat(res)
+     setprop(res)
       console.log("Prop",res) 
     },
     errMessage: () => {}
   });
-  useEffect(() => {
-   if(ProductInfo){
-    reset({
-      Title:ProductInfo.title,
-      UrlName:ProductInfo.urlName,
-      ShortDescription:ProductInfo.shortDescription,
-      Price:ProductInfo.price
-  })
-  settype(ProductInfo.type)
-   }
-  
-  }, [ProductInfo])
   
   const [productdata, setproductdata] = useState()
   const [file, setfile] = useState();
@@ -129,25 +116,51 @@ const EditProduct = () => {
   const [editorState, setEditorState] = React.useState(
     () => EditorState.createEmpty(),
   );
-
+  useEffect(() => {
+    if(ProductInfo){
+     reset({
+       Title:ProductInfo.title,
+       UrlName:ProductInfo.urlName,
+       ShortDescription:ProductInfo.shortDescription,
+       Price:ProductInfo.price
+   })
+   settype(ProductInfo.type);
+   setdescription(ProductInfo.description)
+   setfile(`http://api.easivisit.com${ProductInfo.covermageName}`)
+    }
+   
+   }, [ProductInfo])
+console.log("prop",prop);
+console.log("cat",cat);
   const onSubmit = data => {
     console.log("data",data)
     const PropertyData = prop?.map(i=>({value:data[i.value],propertyId:i.propertyId}))
 
      const formdata = new FormData();
      formdata.append("Title", data.Title);
+     formdata.append("id",id);
     // PropertyData.forEach((i,index)=>formdata.append(`Properties[${index}]`,i))
     // cat.forEach((i,index)=>formdata.append(`Categories[${index}]`,i))
 
-     formdata.append("Description", description);
-     formdata.append("ShortDescription", data.ShortDescription);
-     formdata.append("UrlName", data.UrlName);
-     formdata.append("Price", data.Price);
-     formdata.append("Type", type);
-     formdata.append("ImageCover", file,file.name);
-     formdata.append("CovermageName", file.name);
-    formdata.append("Properties", PropertyData);
-    formdata.append("Categories", cat);
+    formdata.append("Description", description);
+    formdata.append("ShortDescription", data.ShortDescription);
+    formdata.append("UrlName", data.UrlName);
+    formdata.append("Price", data.Price);
+    formdata.append("Type", type);
+    if(typeof(file) !== "string"){
+      formdata.append("ImageCover", file,file.name);
+      formdata.append("CovermageName", file.name);
+    }else{
+      formdata.append("ImageCover", file);
+      formdata.append("CovermageName", file);
+    }
+   
+   PropertyData.forEach(element => {
+     formdata.append("Properties",JSON.stringify(element));
+   })
+   cat.forEach(element => {
+     formdata.append("Categories",element);
+   });
      setproductdata(formdata)
   };
   const [catdata, setcatdata] = useState();
@@ -183,7 +196,8 @@ const EditProduct = () => {
     data:productdata,
    formdata:true,
     argFunc: res => {
-      navigate(`/add-img-to-product/${res}`)
+      toast.success("محصول با موفقیت بروزرسانی شد.")
+      navigate(`/add-img-to-product/${id}`)
       
     },
     errMessage: () => {}
@@ -196,17 +210,19 @@ useEffect(() => {
     apipostproduct.reFetch()
   }
 }, [productdata])
+
   return (
     <Card>
-      <Title title="اضافه کردن محصول" />
+      <Title title="ویرایش کردن محصول" />
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <UploadImage
+       {ProductInfo?.covermageName && <UploadImage
           file={file}
           setfile={setfile}
           id={1}
           text="اپلود عکس کاور"
-        />
+          defaultImage={file}
+        /> }
         <Input
           name="Title"
           control={control}
@@ -226,7 +242,7 @@ useEffect(() => {
           className="seconadary-input "
           type="text"
           register={{
-            required: "عنوان اجباری است "
+            required: "نام لینک اجباری است "
           }}
         />
         <Input
@@ -237,7 +253,7 @@ useEffect(() => {
           className="seconadary-input  my-[20px] "
           type="text"
           register={{
-            required: "عنوان اجباری است "
+            required: "قیمت اجباری است "
           }}
         />
         <Selectbox
@@ -245,6 +261,7 @@ useEffect(() => {
           option={typeOption}
           className=" my-[20px]"
           onChange={(value) => settype(value)}
+          value={type}
         />
       
         {catdata && <Selectbox
@@ -253,22 +270,27 @@ useEffect(() => {
             mode="multiple"
          
           className=" my-[20px]"
-  onChange={(value,label) => setcat(label.map(i=>({propertyId:i.value,value:i.children})))}
-        />
+          value={cat?.map(i=>i.categoryId ? i.categoryId : i)}
+          onChange={(value,label) => setcat(value)}
+          />
       } 
       {Propertylist && <Selectbox
           label="ویژگی"
           option={Propertylist}
-          
+          value={prop?.map(i=>i.propertyId)}
            mode="multiple"
-          onChange={(value,label) => setprop(label.map(i=>({propertyId:i.value,value:i.children})))}
+          onChange={(value,label) => {
+            setprop(label.map(i=>({propertyId:i.value,value:i.children})))
+            setProductInfoFeatures(label.map(i=>({propertyId:i.value,name:i.children})))
+          }}
         />}
       <div className="grid-cols-3 grid gap-[32px]"> 
         {
-            prop?.map(i=><PropertyvalueBox  control={control}
+            ProductInfoFeatures?.map(i=><PropertyvalueBox edit  control={control}
             errors={errors}
-            name={i.value}
-            label={i.value}  />)
+            name={i.name}
+            label={i.name} 
+            value={i.value ? i.value : ""} />)
         } 
       </div>
         <Textarea
@@ -296,7 +318,7 @@ useEffect(() => {
          <p className="d-flex label text-[17px] mb-[10px]">
          توضیحات
       </p>
-        <TextEditor text={description} settext={setdescription}  />
+       {description && <TextEditor text={description} settext={setdescription}  />}
 
         <Button
          // onClick={() => navigate("/add-img-to-product")}

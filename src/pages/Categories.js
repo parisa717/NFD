@@ -30,11 +30,14 @@ const Categories = () => {
   }
   const apigetCatList = useFetch({
     method: "get",
-    url: "api/Category/All",
+    url: "api/Category/AllPaging",
     noHeader: false,
     trigger: false,
     setter:setcatdata,
-   
+    params:{
+      pageNumber:1,
+      size:10
+    },
     argFunc: res => {
       console.log(res);
     },
@@ -94,8 +97,8 @@ const Categories = () => {
     },
     {
       title: "زیرمجموعه",
-      dataIndex: "parentId",
-      key: "parentId"
+      dataIndex: "parentName",
+      key: "parentName"
     },
     {
       title: "نام لینک",

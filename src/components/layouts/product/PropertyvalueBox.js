@@ -2,7 +2,7 @@ import { formatStrategyValues } from 'rc-tree-select/lib/utils/strategyUtil'
 import React from 'react'
 import Input from '../../share/Input'
 
-const PropertyvalueBox = ({label,name,control,errors}) => {
+const PropertyvalueBox = ({label,name,control,errors,edit,value}) => {
 
   return (
     <div>
@@ -17,6 +17,7 @@ const PropertyvalueBox = ({label,name,control,errors}) => {
           register={{
             required: " اجباری است "
           }}
+          defaultValue={edit ? value:""}
         />
 
 

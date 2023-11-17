@@ -36,9 +36,13 @@ const CreateCategory = ({ catid, edit,apigetCatList,onCancel }) => {
     argFunc: res => {
       console.log(res);
       reset({ title: res.title, urlName: res.urlName });
-      setCatParents(res.parentId)
+      setCatParents(res.parentId);
+     
     },
-    errMessage: () => {}
+    errMessage: () => {
+
+
+    }
   });
   useEffect(() => {
     if(catid){
@@ -56,8 +60,9 @@ const CreateCategory = ({ catid, edit,apigetCatList,onCancel }) => {
     caller:apigetCatList,
     argFunc: res => {
       onCancel()
+      reset()
     },
-    errMessage: () => {}
+    errMessage: () => { reset()}
   });
   const updateCat = useFetch({
     method: "post",
@@ -68,8 +73,14 @@ const CreateCategory = ({ catid, edit,apigetCatList,onCancel }) => {
     caller:apigetCatList,
     argFunc: res => {
       onCancel()
+      reset()
+      setCatParents()
     },
-    errMessage: () => {}
+    errMessage: () => {
+      reset()
+      setCatParents()
+
+    }
   });
   const onSubmit = data => {
     if (edit) {

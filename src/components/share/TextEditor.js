@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Editor, EditorState } from "draft-js";
+import { ContentState, convertFromHTML, Editor, EditorState } from "draft-js";
 import { RichUtils } from "draft-js";
 import toolbarIcons from "./ToolbarIcons";
 import { stateToHTML } from "draft-js-export-html"
@@ -44,11 +44,13 @@ function Toolbar({ editorState, updateEditorState, isEditor }) {
 
 
 export default function FbEditor({text,settext}) {
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
-  const [isEditor, setEditor] = useState(false);
 
+  const [isEditor, setEditor] = useState(false);
+  const contentDataState = ContentState.createFromBlockArray(convertFromHTML(text));
+  const editorDataState = EditorState.createWithContent(contentDataState);
+  const [editorState, setEditorState] = useState(() =>
+  editorDataState
+);
   const updateEditorState = editorState =>{ setEditorState(editorState);
     settext(stateToHTML(editorState.getCurrentContent()) );
 

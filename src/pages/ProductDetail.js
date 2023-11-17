@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import useFetch from '../Hooks/useAxios';
 import he from 'he'
 import { useParams } from 'react-router-dom';
+import Button from '../components/share/Button';
 
 const ProductDetail = () => {
     const [ProductInfo, setProductInfo] = useState()

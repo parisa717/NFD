@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageUploading from "react-images-uploading";
 import Button from "./Button";
 // import trashIcon from "../../assets/img/icons/trash-white.svg"
 // import uploadIcon from "../../assets/img/icons/uploadlist.svg"
 import { useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function MultipleImageFile({
   defaultImage,
@@ -14,17 +16,24 @@ function MultipleImageFile({
   text,
   orange,
   className,
+  ImageList,
+  apigetproductImage,
+  apideleteproduct,
   fileid,
   editfile,
   seteditfile,
+  hanldeFormdata,
+  setImageId,
   multiple = false,
   ...rest
 }) {
   const [images, setImages] = useState([]);
   const maxNumber = 69;
+  
   const onChange = (imageList, addUpdateIndex) => {
     setImages(imageList);
     setfile(imageList);
+
   };
   const deleteOldPic = (index,i)=>{
     const updatedWelfare = {
@@ -41,12 +50,17 @@ function MultipleImageFile({
 
   }
   const {id} =useParams()
-  console.log("editfile",editfile)
-  console.log("file",file)
+useEffect(() => {
+  if(file){
+    hanldeFormdata(file)
+  }
+}, [file])
+console.log(file)
+
   return (
     <div>
       <ImageUploading
-        multiple
+   
         value={images}
         onChange={onChange}
         maxNumber={maxNumber}
@@ -81,7 +95,7 @@ function MultipleImageFile({
                 </div>
               :  <div className="upload__image-wrapper--grid">
                  
-                 { 
+                 {/* { 
                       editfile?.filter(j=>j.delete !== true).map((i,index)=>
                         
                         <div key={index} className="image-item">
@@ -102,18 +116,18 @@ function MultipleImageFile({
                         
                         </div>
                       </div>)
-                    }
+                    } */}
             
-                    {file?.map((image, index) =>
+                    {ImageList?.map((image, index) =>
                       <div key={index} className="image-item">
                         <div className="upload__image-wrapper--images relative">
                           <button className="center bg-silicon"  onClick={() => {
-                                onImageRemove(index);
+                               setImageId(image.id)
                               }}>
-                          <div>trash</div>
+                         <FontAwesomeIcon width={20} fontSize={20} icon={faTrash} />
                           </button>
                           <img
-                            src={image.data_url}
+                            src={`http://api.easivisit.com${image.imageUrl}`}
                             alt=""
                             width="87"
                             height="64"
