@@ -5,7 +5,7 @@ import Button from "../../share/Button";
 import Input from "../../share/Input";
 import Selectbox from "../../share/Selectbox";
 
-const CreateCategory = ({ catid, edit,apigetCatList,onCancel }) => {
+const CreateCategory = ({ catid, edit,apigetCatList,onCancel,open ,catdata}) => {
   console.log(edit);
   const {
     formState: { errors, isValid },
@@ -13,20 +13,12 @@ const CreateCategory = ({ catid, edit,apigetCatList,onCancel }) => {
     control,
     handleSubmit
   } = useForm({defaultValues:{ title: "", urlName: "" }});
-  const [catdata, setcatdata] = useState();
   const [CategoriesPostData, setCategoriesPostData] = useState();
   const [CatParents, setCatParents] = useState();
 
-  const apigetCatLists = useFetch({
-    method: "get",
-    url: "api/Category/All",
-    noHeader: false,
-    trigger: true,
-    argFunc: res => {
-      setcatdata(res.map(i => ({ value: i.id, label: i.title })));
-    },
-    errMessage: () => {}
-  }); 
+  
+  
+  
   const apigetCat = useFetch({
     method: "get",
     url: "api/Category/GetById",
@@ -34,15 +26,10 @@ const CreateCategory = ({ catid, edit,apigetCatList,onCancel }) => {
     trigger: edit,
     params: { id: catid },
     argFunc: res => {
-      console.log(res);
       reset({ title: res.title, urlName: res.urlName });
       setCatParents(res.parentId);
-     
     },
-    errMessage: () => {
-
-
-    }
+    errMessage: () => {}
   });
   useEffect(() => {
     if(catid){
@@ -79,7 +66,6 @@ const CreateCategory = ({ catid, edit,apigetCatList,onCancel }) => {
     errMessage: () => {
       reset()
       setCatParents()
-
     }
   });
   const onSubmit = data => {
@@ -91,15 +77,12 @@ const CreateCategory = ({ catid, edit,apigetCatList,onCancel }) => {
   };
   useEffect(
     () => {
-     
       if (CategoriesPostData) {
         if(edit){ 
           updateCat.reFetch()
         }else{
           apipostCat.reFetch();
-        
         }
-       
       }
     },
     [CategoriesPostData]
@@ -138,14 +121,14 @@ const CreateCategory = ({ catid, edit,apigetCatList,onCancel }) => {
             onChange={value => setCatParents(value)}
             value={CatParents}
           />}
-        <Button
+         <Button
           disabled={apipostCat.loading}
           varient="primary"
           className="mt-[40px]"
           fullwidth
-        >
+         >
           ثبت
-        </Button>
+         </Button>
       </form>
     </div>
   );

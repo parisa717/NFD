@@ -11,10 +11,12 @@ const DashboarLayout = () => {
     <div className="">
       <div id="layout-wrapper">
         <Menu />
+        
         <div
           className={`hambergur-menu ${show ? "change" : ""} `}
           onClick={() => setshow(!show)}
         >
+       
           <div className="bar1" />
           <div className="bar2" />
           <div className="bar3" />

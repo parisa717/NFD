@@ -22,29 +22,28 @@ const Authenticated = () => {
   return (
     <div>
       <RefreshtokenProvider>
-      <PermissionContextProvider>
+       <PermissionContextProvider>
          <Routes>
-          <Route element={<DashboarLayout />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/features" element={<Features/>} />
-          <Route path="/roles" element={<RoleManagment/>} />
-          <Route path="/orders" element={<OrderManagment/>} />
-          <Route path="/users" element={<UsersManagement/>} />
-          <Route path="/payments" element={<EventPaymentManagement/>} />
-          <Route path="/payments-card" element={<CardToCardOrderManagment/>} />
-          <Route path="/add-product" element={<AddProduct/>} />
-          <Route path="/product" element={<Product/>} />
-          <Route path="/discounts" element={<Discounts/>} />
-          <Route path="/add-img-to-product/:id" element={<AddImgToProduct/>} />
-          <Route path="/consulting" element={<RequestForConsulting/>} />
-          <Route path="/product/:id" element={<ProductDetail/>} />
-          <Route path="/Editproduct/:id" element={<EditProduct/>} />
-
-         </Route>
-        </Routes>
-        </PermissionContextProvider>
-        </RefreshtokenProvider>
+           <Route element={<DashboarLayout />}>
+           <Route path="/" element={<Dashboard />} />
+           <Route path="/categories" element={<Categories />} />
+           <Route path="/features" element={<Features />} />
+           <Route path="/roles" element={<RoleManagment />} />
+           <Route path="/orders" element={<OrderManagment />} />
+           <Route path="/users" element={<UsersManagement />} />
+           <Route path="/payments" element={<EventPaymentManagement />} />
+           <Route path="/payments-card" element={<CardToCardOrderManagment />} />
+           <Route path="/add-product" element={<AddProduct />} />
+           <Route path="/product" element={<Product />} />
+           <Route path="/discounts" element={<Discounts />} />
+           <Route path="/add-img-to-product/:id" element={<AddImgToProduct />} />
+           <Route path="/consulting" element={<RequestForConsulting />} />
+           <Route path="/product/:id" element={<ProductDetail />} />
+           <Route path="/Editproduct/:id" element={<EditProduct />} />
+          </Route>
+         </Routes>
+       </PermissionContextProvider>
+    </RefreshtokenProvider>
     </div>
   )
 }

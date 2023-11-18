@@ -43,7 +43,7 @@ const Discounts = () => {
       key: "type",
       render:(row,record)=>{
         return(
-          <div>{row === 0 ? "مقداری":"درصدی"}</div>
+          <div>{row === 1 ? "مقداری":"درصدی"}</div>
         )
       }
     },

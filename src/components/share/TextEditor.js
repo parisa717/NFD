@@ -46,10 +46,11 @@ function Toolbar({ editorState, updateEditorState, isEditor }) {
 export default function FbEditor({text,settext}) {
 
   const [isEditor, setEditor] = useState(false);
-  const contentDataState = ContentState.createFromBlockArray(convertFromHTML(text));
-  const editorDataState = EditorState.createWithContent(contentDataState);
+
+  const contentDataState = text ?  ContentState.createFromBlockArray(convertFromHTML(text)) : null;
+  const editorDataState =text ?  EditorState.createWithContent(contentDataState) : null;
   const [editorState, setEditorState] = useState(() =>
-  editorDataState
+text ?   editorDataState : EditorState.createEmpty()
 );
   const updateEditorState = editorState =>{ setEditorState(editorState);
     settext(stateToHTML(editorState.getCurrentContent()) );
@@ -69,18 +70,18 @@ export default function FbEditor({text,settext}) {
     <div className="editor-content">
      
       
-        <Toolbar
+       <Toolbar
           editorState={editorState}
           updateEditorState={updateEditorState}
         />
    
-      <div className={`editor-area ${isEditor ? "" : "disabled"}`}>
+       <div className={`editor-area ${isEditor ? "" : "disabled"}`}>
         <Editor
           editorState={editorState}
           onChange={updateEditorState}
         //  placeholder="Write your content here ..."
         />
-      </div>
+       </div>
       
     </div>
   );

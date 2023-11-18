@@ -20,12 +20,13 @@ const Categories = () => {
   const [catID, setcatID] = useState();
   const [deleteCat, setdeleteCat] = useState();
   const [EditModal, setEditModal] = useState(false);
+  const [catlistdata, setcatlistdata] = useState();
+
   const ShowEditModal = (id)=>{
     setcatID(id);
     setEditModal(true)
   }
   const CancelEditModal = (id)=>{
-    
     setEditModal(false)
   }
   const apigetCatList = useFetch({
@@ -39,7 +40,7 @@ const Categories = () => {
       size:10
     },
     argFunc: res => {
-      console.log(res);
+      setcatlistdata(res.map(i => ({ value: i.id, label: i.title })));
     },
     errMessage: () => {}
   });
@@ -112,7 +113,7 @@ const Categories = () => {
       render: (row,record) => {
         return (
           <div className="flex gap-[20px]">
-          <button onClick={()=>deletedCategories(row)} >   <FontAwesomeIcon icon={faTrash} /></button>
+          <button onClick={()=>deletedCategories(row)} >  <FontAwesomeIcon icon={faTrash} /></button>
            <button onClick={()=>ShowEditModal(row)}  > <FontAwesomeIcon icon={faPenToSquare} /></button>
           </div>
         );
@@ -167,7 +168,7 @@ const Categories = () => {
         }}
         open={isModalOpen}
       >
-        <CreateCategory onCancel={handleCancel}  apigetCatList={apigetCatList} />
+        <CreateCategory  catdata={catlistdata}   onCancel={handleCancel}  apigetCatList={apigetCatList}  />
       </Modal>
       <Modal
         title="ویرایش  دسته بندی"
@@ -186,7 +187,7 @@ const Categories = () => {
         }}
         open={EditModal}
       >
-        <CreateCategory onCancel={CancelEditModal} apigetCatList={apigetCatList} edit={true} catid={catID} />
+        <CreateCategory catdata={catlistdata}  onCancel={CancelEditModal} apigetCatList={apigetCatList} edit={true} catid={catID} />
       </Modal>
     </Card>
   );

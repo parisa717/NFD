@@ -12,6 +12,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { usePermissionInfo } from "../../context/PermissionContext";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/authContext";
+import useFetch from "../../Hooks/useAxios";
 
 const Sidebar = () => {
   const { Permissioninfo } = usePermissionInfo();
@@ -104,17 +105,31 @@ const Sidebar = () => {
     navigate('/register', { replace: true });
   
   }
+  const [userdata, setuserdata] = useState([]);
+
+  const apigetuserList = useFetch({
+    method: "get",
+    url: "api/User/GetUser",
+  
+    noHeader: false,
+    trigger: true,
+    setter: setuserdata,
+    argFunc: res => {
+      console.log(res);
+    },
+    errMessage: () => {}
+  });
   return (
     <div className="vertical-menu">
       <div className="h-[100]">
         <div className="flex flex-col items-center text-[18px] mt-[40px]">
-          <p className="text-[#3646ab]">سوپر ادمین</p>
-          <p className="text-[#79797c] mt-[20px]">۰۹۱۳۷۹۳۰۳۵۷ +</p>
+          <p className="text-[#3646ab]">{userdata?.roleName}</p>
+          <p className="text-[#79797c] mt-[20px]">{userdata?.phone} +</p>
         </div>
         <ul className="px-[30px] mt-[40px]">
           {array.map(i =>
             <li 
-              className="my-[10px] py-[10px] px-[5px] text-[16px] cursor-pointer"
+              className=" py-[10px] px-[5px] text-[16px] cursor-pointer"
               key={i.title}
             >
               <NavLink
@@ -124,7 +139,6 @@ const Sidebar = () => {
               >
                 <div className="flex gap-[10px] items-center text-[#121935]">
                   <img src={i.icon} alt={i.title} />
-
                   <div>
                     {i.title}
                   </div>

@@ -8,7 +8,10 @@ import payment from "../../assets/img/iconsidebar/empty-wallet.svg";
 import cardtocard from "../../assets/img/iconsidebar/empty-wallet-change.svg";
 import consulting from "../../assets/img/iconsidebar/user-search.svg";
 import admin from "../../assets/img/iconsidebar/user-tick.svg";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import useFetch from "../../Hooks/useAxios";
+import { useAuth } from "../../context/authContext";
 
 const ResponsiveSidbar = ({ show }) => {
   const arr = [
@@ -67,13 +70,35 @@ const ResponsiveSidbar = ({ show }) => {
       icon: consulting,
       url: "/consulting"
     }
+
   ];
+  const [userdata, setuserdata] = useState([]);
+
+  const apigetuserList = useFetch({
+    method: "get",
+    url: "api/User/GetUser",
+  
+    noHeader: false,
+    trigger: true,
+    setter: setuserdata,
+    argFunc: res => {
+      console.log(res);
+    },
+    errMessage: () => {}
+  });
+  const { authDispatch } = useAuth();
+  const navigate = useNavigate();
+  const LogoutFunc = ()=>{
+    authDispatch({ type: 'LOGOUT' });
+    navigate('/register', { replace: true });
+  
+  }
   return (
     <div className={` ResponsiveSidbar ${show ? "ResponsiveSidbar__show ":""}`}>
       <div className="h-[100]">
         <div className="flex flex-col items-center text-[18px] mt-[40px]">
-          <p className="text-[#3646ab]">سوپر ادمین</p>
-          <p className="text-[#79797c] mt-[20px]">۰۹۱۳۷۹۳۰۳۵۷ +</p>
+        <p className="text-[#3646ab]">{userdata?.roleName}</p>
+          <p className="text-[#79797c] mt-[20px]">{userdata?.phone} +</p>
         </div>
         <ul className="px-[30px] mt-[40px]">
           {arr.map(i =>
@@ -97,6 +122,9 @@ const ResponsiveSidbar = ({ show }) => {
               </NavLink>
             </li>
           )}
+           <li onClick={LogoutFunc} className=" cursor-pointer my-[10px] py-[10px] px-[5px] text-[16px]">
+  خروج
+          </li>
         </ul>
       </div>
     </div>
