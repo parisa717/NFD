@@ -20,7 +20,7 @@ const Categories = () => {
   const [catID, setcatID] = useState();
   const [deleteCat, setdeleteCat] = useState();
   const [EditModal, setEditModal] = useState(false);
-  const [catlistdata, setcatlistdata] = useState();
+  const [catlistdata, setcatlistdata] = useState([{value:null,label:"root"}]);
 
   const ShowEditModal = (id)=>{
     setcatID(id);
@@ -40,7 +40,8 @@ const Categories = () => {
       size:10
     },
     argFunc: res => {
-      setcatlistdata(res.map(i => ({ value: i.id, label: i.title })));
+      const mapdata=res.map(i => ({ value: i.id, label: i.title }))
+      setcatlistdata(prev=>[...prev,...mapdata]);
     },
     errMessage: () => {}
   });
