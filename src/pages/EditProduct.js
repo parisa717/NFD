@@ -150,9 +150,6 @@ console.log("cat",cat);
     if(typeof(file) !== "string"){
       formdata.append("ImageCover", file,file.name);
       formdata.append("CovermageName", file.name);
-    }else{
-      formdata.append("ImageCover", file);
-      formdata.append("CovermageName", file);
     }
    
    PropertyData.forEach(element => {
