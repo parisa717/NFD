@@ -248,7 +248,7 @@ useEffect(() => {
           errors={errors}
           label=" قیمت"
           className="seconadary-input  my-[20px] "
-          type="text"
+          type="number"
           register={{
             required: "قیمت اجباری است "
           }}
