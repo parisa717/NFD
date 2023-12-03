@@ -13,7 +13,6 @@ import { usePermissionInfo } from "../../context/PermissionContext";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/authContext";
 import useFetch from "../../Hooks/useAxios";
-
 const Sidebar = () => {
   const { Permissioninfo } = usePermissionInfo();
   const [array, setarray] = useState([]);

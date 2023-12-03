@@ -152,16 +152,16 @@ console.log("cat",cat);
       formdata.append("CovermageName", file.name);
     }
    
-   PropertyData.forEach(element => {
-     formdata.append("Properties",JSON.stringify(element));
-   })
+    prop.forEach(element => {
+      formdata.append("Properties",JSON.stringify({propertyId:element.propertyId,value:element.value}));
+    })
    cat.forEach(element => {
-     formdata.append("Categories",element);
+    formdata.append("Categories",JSON.stringify(element.categoryId));
    });
      setproductdata(formdata)
   };
   const [catdata, setcatdata] = useState();
-
+console.log(prop)
   const apigetCatList = useFetch({
     method: "get",
     url: "api/Category/All",
@@ -207,7 +207,7 @@ useEffect(() => {
     apipostproduct.reFetch()
   }
 }, [productdata])
-
+console.log(cat)
   return (
     <Card>
       <Title title="ویرایش کردن محصول" />
@@ -267,8 +267,9 @@ useEffect(() => {
             mode="multiple"
          
           className=" my-[20px]"
-          value={cat?.map(i=>i.categoryId ? i.categoryId : i)}
-          onChange={(value,label) => setcat(value)}
+          value={cat?.map(i=>i.categoryId)}
+          onChange={(value,label) => setcat(label.map(i=>({categoryId:i.value})))}
+
           />
       } 
       {Propertylist && <Selectbox

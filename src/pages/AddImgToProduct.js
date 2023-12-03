@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../components/share/Button";
 import Card from "../components/share/Card";
 import MultipleImageFile from "../components/share/MultipleImageFile";
@@ -79,6 +79,7 @@ const AddImgToProduct = () => {
     },
     [ImageId]
   );
+  const navigate = useNavigate()
   return (
     <Card>
       <Title title="اضافه کردن  مدیا به محصول" />
@@ -92,7 +93,7 @@ const AddImgToProduct = () => {
         file={files}
         setfile={setfiles}
       />
-      <Button varient="primary" className="mt-[40px]" fullwidth>
+      <Button onClick={()=>navigate("/product")} varient="primary" className="mt-[40px]" fullwidth>
         ثبت
       </Button>
     </Card>

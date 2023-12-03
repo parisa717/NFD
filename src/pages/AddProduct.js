@@ -75,12 +75,12 @@ const AddProduct = () => {
       formdata.append("Properties",JSON.stringify(element));
     })
     cat.forEach(element => {
-      formdata.append("Categories",element);
+      formdata.append("Categories",JSON.stringify(element));
     });
      setproductdata(formdata)
   };
   const [catdata, setcatdata] = useState();
-
+console.log("cat",cat)
   const apigetCatList = useFetch({
     method: "get",
     url: "api/Category/All",
@@ -182,7 +182,7 @@ useEffect(() => {
             mode="multiple"
          
           className=" my-[20px]"
-  onChange={(value,label) => setcat(value)}
+  onChange={setcat}
         />
       } 
       {Propertylist && <Selectbox
@@ -194,10 +194,14 @@ useEffect(() => {
         />}
       <div className="grid-cols-3 grid gap-[32px]"> 
         {
-            prop?.map(i=><PropertyvalueBox  control={control}
-            errors={errors}
-            name={i.value}
-            label={i.value}  />)
+          prop?.map(i=>
+            <PropertyvalueBox  
+               control={control}
+               errors={errors}
+               name={i.value}
+               label={i.value}
+            />
+            )
         } 
       </div>
         <Textarea

@@ -140,6 +140,9 @@ useEffect(() => {
         >
           ثبت
         </Button> */}
+        {
+          apiPostNumber.loading 
+        }
       </form>
     </div>
   );
