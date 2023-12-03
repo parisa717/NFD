@@ -8,6 +8,7 @@ import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import Countdown, { CountdownApi } from "react-countdown";
 import toast from "react-hot-toast";
+import Loading from "../share/Loading";
 
 const RegisterbyCode = ({ phone }) => {
   const { formState: { errors, isValid }, control, handleSubmit } = useForm();
@@ -141,7 +142,7 @@ useEffect(() => {
           ثبت
         </Button> */}
         {
-          apiPostNumber.loading 
+          apiPostNumber.loading  && <Loading />
         }
       </form>
     </div>
