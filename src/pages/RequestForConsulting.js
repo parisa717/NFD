@@ -4,7 +4,7 @@ import {
   faTrash
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Modal } from "antd";
+import { Modal, Pagination } from "antd";
 import { useEffect, useState } from "react";
 import CreateCategory from "../components/layouts/Categories/CreateCategory";
 import CreateFeatures from "../components/layouts/Fetures/CreateFeatures";
@@ -30,18 +30,24 @@ const dataSource = [
 ];
 const RequestForConsulting = () => {
   const [ConsulingerList, setConsulingList] = useState([])
+  const [PageSize, setPageSize] = useState();
+  const [current, setcurrent] = useState(1);
+  const onChange = page => {
+    setcurrent(page);
+
+  };
   const apigetCatList = useFetch({
     method: "get",
     url: "api/Counseling/All",
     noHeader: false,
     trigger: false,
     params:{
-      pageNumber:1,
+      pageNumber:current,
       size:10
     },
     setter: setConsulingList,
     argFunc: res => {
-      console.log(res);
+      setPageSize(res[0].count)
     },
     errMessage: () => {}
   });
@@ -84,15 +90,22 @@ const RequestForConsulting = () => {
   return (
     <Card>
        <Title title=' درخواست های مشاوره'/>
-
+       <div className="flex justify-between items-end">
       <SearchInput setsearchtext={setsearchtext}  />
 
-      <PrimayTable
+       
+      </div>
+<div className="mt-[40px]">
+
+<PrimayTable
         dataSource={ConsulingerList}
         columns={columns}
        
       />
-     
+</div>
+       <div className="flex justify-center items-center mt-[20px]">
+              <Pagination hideOnSinglePage={true} current={current} onChange={onChange} total={PageSize} />
+              </div>
     </Card>
   );
 };

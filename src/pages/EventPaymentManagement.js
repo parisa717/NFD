@@ -4,7 +4,7 @@ import {
   faTrash
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Modal } from "antd";
+import { Modal, Pagination } from "antd";
 import { useState } from "react";
 import CreateCategory from "../components/layouts/Categories/CreateCategory";
 import CreateFeatures from "../components/layouts/Fetures/CreateFeatures";
@@ -59,18 +59,24 @@ const EventPaymentManagement = () => {
    
   ];
   const [PaymentList, setPaymentList] = useState([])
+  const [PageSize, setPageSize] = useState();
+  const [current, setcurrent] = useState(1);
+  const onChange = page => {
+    setcurrent(page);
+
+  };
   const apigetCatList = useFetch({
     method: "get",
     url: "api/PaymentLog/All",
     noHeader: false,
     trigger: true,
     params:{
-      pageNumber:1,
+      pageNumber:current,
       size:10
     },
     setter: setPaymentList,
     argFunc: res => {
-      console.log(res);
+     setPageSize(res[0].count)
     },
     errMessage: () => {}
   });
@@ -83,7 +89,9 @@ const EventPaymentManagement = () => {
         columns={columns}
        
       />
-     
+      <div className="flex justify-center items-center mt-[20px]">
+              <Pagination hideOnSinglePage={true} current={current} onChange={onChange} total={PageSize} />
+              </div>
     </Card>
   );
 };

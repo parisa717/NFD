@@ -4,7 +4,7 @@ import {
   faTrash
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Modal } from "antd";
+import { Modal, Pagination } from "antd";
 import { useEffect, useState } from "react";
 import CreateFeatures from "../components/layouts/Fetures/CreateFeatures";
 import Button from "../components/share/Button";
@@ -17,6 +17,12 @@ const Features = () => {
   const [Propertydata, setPropertydata] = useState([]);
   const [PropertyID, setPropertyID] = useState();
   const [EditModal, setEditModal] = useState(false);
+  const [PageSize, setPageSize] = useState();
+  const [current, setcurrent] = useState(1);
+  const onChange = page => {
+    setcurrent(page);
+
+  };
   const ShowEditModal = id => {
     setPropertyID(id);
     setEditModal(true);
@@ -27,12 +33,17 @@ const Features = () => {
   const [deleteFet, setdeleteFet] = useState()
   const apiPropertyList = useFetch({
     method: "get",
-    url: "api/Property/All",
+    url: "api/Property/AllPaging",
     noHeader: false,
     trigger: true,
     setter: setPropertydata,
+    params:{
+      pageNumber: current,
+      size: 12,
+    },
     argFunc: res => {
       console.log(res);
+      setPageSize(res[0].count);
     },
     errMessage: () => {}
   });
@@ -112,6 +123,9 @@ const Features = () => {
       <PrimayTable
        dataSource={Propertydata} 
        columns={columns} />
+        <div className="flex justify-center items-center mt-[20px]">
+              <Pagination hideOnSinglePage={true} current={current} onChange={onChange} total={PageSize} />
+              </div>
       <Modal
         title="اضافه کردن ویژگی"
         footer={null}

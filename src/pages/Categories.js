@@ -4,7 +4,7 @@ import {
   faTrash
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Modal } from "antd";
+import { Modal, Pagination } from "antd";
 import { useEffect, useState } from "react";
 import CreateCategory from "../components/layouts/Categories/CreateCategory";
 import Button from "../components/share/Button";
@@ -21,7 +21,8 @@ const Categories = () => {
   const [deleteCat, setdeleteCat] = useState();
   const [EditModal, setEditModal] = useState(false);
   const [catlistdata, setcatlistdata] = useState();
-
+  const [PageSize, setPageSize] = useState();
+  const [current, setcurrent] = useState(1);
   const ShowEditModal = (id)=>{
     setcatID(id);
     setEditModal(true)
@@ -36,12 +37,14 @@ const Categories = () => {
     trigger: false,
     setter:setcatdata,
     params:{
-      pageNumber:1,
-      size:10
+      pageNumber: current,
+      size: 12,
     },
     argFunc: res => {
       const mapdata=res.map(i => ({ value: i.id, label: i.title }))
       setcatlistdata([{value:null,label:"root"},...mapdata]);
+      setPageSize(res[0].count);
+
     },
     errMessage: () => {}
   });
@@ -66,7 +69,7 @@ const Categories = () => {
     }else{
       apigetCatList.reFetch()
     }
-  }, [searchtext])
+  }, [searchtext,current])
   
   const deletedCategories = (id)=>{
     setdeleteCat(id)
@@ -134,7 +137,10 @@ const Categories = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const onChange = page => {
+    setcurrent(page);
 
+  };
   return (
     <Card>
       <Title title="  دسته بندی ها" />
@@ -151,7 +157,10 @@ const Categories = () => {
         </Button>
         
       </div>
-      <PrimayTable dataSource={catdata} columns={columns} />
+      <PrimayTable  dataSource={catdata} columns={columns} />
+      <div className="flex justify-center items-center mt-[20px]">
+              <Pagination hideOnSinglePage={true} current={current} onChange={onChange} total={PageSize} />
+              </div>
       <Modal
         title="اضافه کردن دسته بندی"
         footer={null}

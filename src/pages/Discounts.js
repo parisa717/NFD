@@ -4,7 +4,7 @@ import {
   faTrash
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Modal } from "antd";
+import { Modal, Pagination } from "antd";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import AddDiscount from "../components/layouts/Discount/AddDiscount";
@@ -31,6 +31,12 @@ const dataSource = [
 const Discounts = () => {
   const [discount, setdiscount] = useState();
   const [discountId, setdiscountId] = useState();
+  const [PageSize, setPageSize] = useState();
+  const [current, setcurrent] = useState(1);
+  const onChange = page => {
+    setcurrent(page);
+
+  };
   const columns = [
     {
       title: "نام کد تخفیف",
@@ -72,14 +78,14 @@ const Discounts = () => {
     method: "get",
     url: "api/Discount/AllDiscounts",
     params: {
-      pageNumber: 1,
+      pageNumber: current,
       size: 10
     },
     noHeader: false,
     trigger: true,
     setter: setdiscount,
     argFunc: res => {
-      console.log(res);
+     setPageSize(res[0].count)
     },
     errMessage: () => {}
   });
@@ -160,6 +166,9 @@ const Discounts = () => {
      
 
       <PrimayTable dataSource={discount} columns={columns} />
+      <div className="flex justify-center items-center mt-[20px]">
+              <Pagination hideOnSinglePage={true} current={current} onChange={onChange} total={PageSize} />
+              </div>
       <Modal
         title="اضافه کردن کد تخفیف"
         footer={null}

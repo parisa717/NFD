@@ -130,8 +130,7 @@ const EditProduct = () => {
     }
    
    }, [ProductInfo])
-console.log("prop",prop);
-console.log("cat",cat);
+
   const onSubmit = data => {
     console.log("data",data)
     const PropertyData = prop?.map(i=>({value:data[i.value],propertyId:i.propertyId}))
@@ -161,7 +160,6 @@ console.log("cat",cat);
      setproductdata(formdata)
   };
   const [catdata, setcatdata] = useState();
-console.log(prop)
   const apigetCatList = useFetch({
     method: "get",
     url: "api/Category/All",

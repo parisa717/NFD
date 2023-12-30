@@ -1,5 +1,6 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Pagination } from "antd";
 import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
@@ -19,13 +20,18 @@ const Product = () => {
   };
   const arr = new Array(3);
   const [productdata, setproductdata] = useState([]);
+  const [PageSize, setPageSize] = useState();
+  const [current, setcurrent] = useState(1);
+  const onChange = page => {
+    setcurrent(page);
 
+  };
   const apigetproductList = useFetch({
     method: "get",
     url: "api/Product/All",
     params:{
-      pageNumber:1,
-      size:10
+      pageNumber:current,
+      size:12
     },
     noHeader: false,
     trigger: false,
@@ -78,6 +84,9 @@ const Product = () => {
          productdata.map(i=><ProductCard apigetproductList={apigetproductList} info={i} />)
        }
       </div>
+      <div className="flex justify-center items-center mt-[20px]">
+              <Pagination hideOnSinglePage={true} current={current} onChange={onChange} total={PageSize} />
+              </div>
     </Card>
   );
 };

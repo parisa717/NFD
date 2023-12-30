@@ -1,4 +1,4 @@
-import { Collapse, Modal, theme } from "antd";
+import { Collapse, Modal, Pagination, theme } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import Button from "../components/share/Button";
 import { useEffect, useState } from "react";
@@ -15,6 +15,12 @@ import SearchInput from "../components/share/SearchInput";
 const RoleManagment = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [RoleId, setRoleId] = useState(false);
+  const [PageSize, setPageSize] = useState();
+  const [current, setcurrent] = useState(1);
+  const onChange = page => {
+    setcurrent(page);
+
+  };
   const columns = [
     {
       title: "عنوان",
@@ -53,7 +59,6 @@ const RoleManagment = () => {
    
    
   ];
-  console.log(RoleId)
 const [roles, setroles] = useState()
   const apigetRoleList = useFetch({
     method: "get",
@@ -62,11 +67,11 @@ const [roles, setroles] = useState()
     trigger: true,
     setter: setroles,
     params:{
-      pageNumber:1,
+      pageNumber:current,
       size:10
     },
     argFunc: res => {
-      console.log(res);
+      setPageSize(res[0].count);
     },
     errMessage: () => {}
   });
@@ -138,6 +143,9 @@ const [roles, setroles] = useState()
       <PrimayTable
        dataSource={roles} 
        columns={columns} />
+            <div className="flex justify-center items-center mt-[20px]">
+              <Pagination hideOnSinglePage={true} current={current} onChange={onChange} total={PageSize} />
+              </div>
         <Modal title=" اضافه کردن نقش" footer={null} closable={true} onCancel={handleCancel}
       okButtonProps={{
         style: {

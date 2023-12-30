@@ -4,7 +4,7 @@ import {
   faTrash
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Modal } from "antd";
+import { Modal, Pagination } from "antd";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import CreateCategory from "../components/layouts/Categories/CreateCategory";
@@ -33,18 +33,24 @@ const dataSource = [
 
 const UsersManagement = () => {
   const [users, setusers] = useState();
+  const [PageSize, setPageSize] = useState();
+  const [current, setcurrent] = useState(1);
+  const onChange = page => {
+    setcurrent(page);
+
+  };
   const apigetuserList = useFetch({
     method: "get",
     url: "api/User/AllUsers",
     params: {
-      pageNumber: 1,
+      pageNumber: current,
       size: 10
     },
     noHeader: false,
     trigger: true,
     setter: setusers,
     argFunc: res => {
-      console.log(res);
+     setPageSize(res[0].count);
     },
     errMessage: () => {}
   });
@@ -159,7 +165,11 @@ const UsersManagement = () => {
 
       <div className="userManagment">
         <PrimayTable dataSource={users} columns={columns} />
+        <div className="flex justify-center items-center mt-[20px]">
+              <Pagination hideOnSinglePage={true} current={current} onChange={onChange} total={PageSize} />
+              </div>
       </div>
+
     </Card>
   );
 };

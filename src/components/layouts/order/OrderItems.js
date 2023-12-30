@@ -1,41 +1,71 @@
 import React from 'react'
 import PrimayTable from '../../share/Table'
-const dataSource = [
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street"
-    },
-    {
-      key: "2",
-      name: "John",
-      age: 42,
-      address: "10 Downing Street"
-    }
-  ];
-const OrderItems = () => {
+
+const OrderItems = ({list}) => {
     const columns = [
-        {
-          title: "نام محصول",
-          dataIndex: "name",
-          key: "name"
-        },
+      {
+        title: "نام سفارش",
+        dataIndex: "title",
+        key: "title",
+        render:(row,key)=>{
+          return(
+            <div className='flex gap-[8px] items-center'>
+              <img width={50} src={`http://api.easivisit.com${key.image}`}/>
+              <p>{row}</p>
+            </div>
+          )
+        }
+      },
         {
           title: "موجودی",
-          dataIndex: "name",
-          key: "name"
+          dataIndex: "price",
+          key: "price"
         },
         {
           title: "وضعیت",
-          dataIndex: "name",
-          key: "name"
+          dataIndex: "state",
+          key: "state"
         },
-       
+        {
+          title: " مشخصات ",
+          dataIndex: "orderItemInformation",
+          key: "orderItemInformation",
+          render:(row,key)=>{
+            return(
+              <div className=' flex gap-[7px]'>
+                
+          {row.fullName&&  <span> {row.fullName}   :نام کامل</span>}
+         {row.jobTitle &&   <span> {row.jobTitle}   :نام شغل</span>}
+              <span> {
+                 row.backImage  && <a href={`http://api.easivisit.com${row.backImage}`}>
+                   عکس پشت کارت
+                 </a>
+               }</span>
+               <span> {
+                 row.frontImage  && <a href={`http://api.easivisit.com${row.frontImage}`}>
+                   عکس روی کارت
+                 </a>
+               }</span>
+               <span> {
+                 row.logo  && <a href={`http://api.easivisit.com${row.logo}`}>
+                  عکس لوگو
+                 </a>
+               }</span>
+               <span> {
+                 row.backImage  && <a href={`http://api.easivisit.com${row.backImage}`}>
+                   عکس پشت کارت
+                 </a>
+               }</span>
+
+              </div>
+            )
+          }
+        },
+    
       ];
   return (
     <div>
-              <PrimayTable dataSource={dataSource} columns={columns} />
+              <PrimayTable  dataSource={list} columns={columns} />
 
     </div>
   )
