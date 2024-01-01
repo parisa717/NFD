@@ -24,7 +24,16 @@ const OrderItems = ({list}) => {
         {
           title: "وضعیت",
           dataIndex: "state",
-          key: "state"
+          key: "state",
+          render(row) {
+            return (
+               <>
+               {
+                 row === 1 ? "ثبت شده":"تکمیل"
+               }
+               </>
+            );
+          }
         },
         {
           title: " مشخصات ",

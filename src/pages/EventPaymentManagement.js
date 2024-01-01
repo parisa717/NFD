@@ -47,12 +47,28 @@ const EventPaymentManagement = () => {
     {
       title: "نوع پرداخت",
       dataIndex: "type",
-      key: "type"
+      key: "type",
+      render(row) {
+        return (
+           <>
+           {row === 2 ?"کارت به کارت":"درگاه"}
+           </>
+        );
+      }
     },
     {
       title: "وضعیت پرداخت",
       dataIndex: "state",
-      key: "state"
+      key: "state",
+      render(row) {
+        return (
+            <div>
+            {
+              row===1?"منتظر پرداخت":row===2?"کارت به کارت":<span className="text-[#247720]">پرداخت موفق</span>
+            }
+            </div>
+        );
+      }
     },
 
    

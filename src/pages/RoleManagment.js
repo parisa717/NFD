@@ -10,6 +10,7 @@ import Card from "../components/share/Card";
 import useFetch from "../Hooks/useAxios";
 import PrimayTable from "../components/share/Table";
 import SearchInput from "../components/share/SearchInput";
+import toast from "react-hot-toast";
 
 
 const RoleManagment = () => {
@@ -81,10 +82,13 @@ const [roles, setroles] = useState()
     noHeader: false,
     trigger: false,
     params:{id:RoleId},
+    caller:apigetRoleList,
     argFunc: res => {
-      console.log(res);
+     toast.success("با موفقیت حذف شد")
     },
-    errMessage: () => {}
+    errMessage: () => {
+      toast.error("عملیات با مشکل مواجه شد لطفا دوباره امتحان کنید")
+    }
   });
 
   const showModal = () => {
@@ -157,7 +161,7 @@ const [roles, setroles] = useState()
           display: "none",
         },
       }} open={isModalOpen}>
-       <AddRoles onCancel={handleCancel}/>
+       <AddRoles caller={apigetRoleList} onCancel={handleCancel}/>
       </Modal>
     </Card>
   );

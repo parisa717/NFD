@@ -127,7 +127,19 @@ const OrderManagment = () => {
     {
       title: "وضعیت سفارش",
       dataIndex: "state",
-      key: "state"
+      key: "state",
+      render(row) {
+        return (
+           <>
+           {
+             row === 1 ? "ثبت شده" :row ===2?"تکمیل اطلاعات":
+             row === 3 ? "منتظر پراخت" :row ===4?"منتظر تایید کد رهگیری":
+             row === 5 ? "آماده ارسال" :row ===6?"رد شده":
+             row === 7 ? "کنسل توسط کاربر" :null
+           }
+           </>
+        );
+      }
     },
     {
       title: "تخفیف ",
@@ -173,7 +185,7 @@ const OrderManagment = () => {
               <div className="hidden">
                 <FunctionalComponentToPrint
                   ref={componentRef}
-                  text={row}
+                  text={row} 
                 />
               </div>
             }
@@ -209,7 +221,7 @@ const OrderManagment = () => {
     ); // eslint-disable-line max-len
   }, []);
   const [OrderList, setOrderList] = useState([]);
-  const apigetProductListByType = useFetch({
+  const apigetOrder = useFetch({
     method: "get",
     url: "api/Order/AllOrders",
     noHeader: false,
@@ -226,7 +238,8 @@ const OrderManagment = () => {
     errMessage: () => {}
   });
   return (
-    <Card>
+   <>
+   {apigetOrder.loading ? <Card>
       <Title title=" مدیریت سفارش ها" />
 
       <PrimayTable dataSource={OrderList} columns={columns} />
@@ -257,7 +270,7 @@ const OrderManagment = () => {
       >
         <OrderItems list={OrderItemsList} />
       </Modal>
-    </Card>
+    </Card> : <Loading/>}</>
   );
 };
 
