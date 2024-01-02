@@ -130,14 +130,17 @@ const OrderManagment = () => {
       key: "state",
       render(row) {
         return (
-           <>
+           <div>
            {
-             row === 1 ? "ثبت شده" :row ===2?"تکمیل اطلاعات":
-             row === 3 ? "منتظر پراخت" :row ===4?"منتظر تایید کد رهگیری":
-             row === 5 ? "آماده ارسال" :row ===6?"رد شده":
-             row === 7 ? "کنسل توسط کاربر" :null
+             row === 1 ? <span className="text-[#b8a237]">ثبت شده</span> 
+             :row ===2?<span className="text-[#d5753c]">تکمیل اطلاعات</span>:
+             row === 3 ? <span  className="text-[#31519c]">منتظر پراخت</span> 
+             :row ===4?<span  className="text-[#31519c]">منتظر تایید کد رهگیری</span>:
+             row === 5 ? <span  className="text-[#31591e]">آماده ارسال</span>
+              :row ===6?<span  className="text-[#b93535]">رد شده</span>:
+             row === 7 ? <span  className="text-[#b93535]">کنسل توسط کاربر</span> :null
            }
-           </>
+           </div>
         );
       }
     },
