@@ -242,7 +242,7 @@ const OrderManagment = () => {
   });
   return (
    <>
-   {apigetOrder.loading ? <Card>
+   {!apigetOrder.loading ? <Card>
       <Title title=" مدیریت سفارش ها" />
 
       <PrimayTable dataSource={OrderList} columns={columns} />
