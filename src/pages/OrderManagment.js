@@ -118,7 +118,7 @@ const OrderManagment = () => {
         const date = moment.from(row, "fa", "YYYY/MM/DD").format("YYYY/MM/DD");
         return (
           <div>
-            {date}
+            {row}
           </div>
         );
       }

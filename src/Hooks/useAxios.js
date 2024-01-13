@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { API_URL } from "../constants";
 import { useAuth } from "../context/authContext";
+import { useNavigate } from "react-router-dom";
 
 const useFetch = ({
   method = "get",
@@ -25,7 +26,9 @@ const useFetch = ({
   const [loading, setLoading] = useState(false);
   const [innerTrigger, setInnerTrigger] = useState(0);
   const controllerRef = useRef(new AbortController());
-  const { token } = useAuth();
+  const { token ,authDispatch} = useAuth();
+  const navigate = useNavigate();
+
   const apiCall = async () => {
     try {
       const result = await axios.request({
@@ -60,6 +63,10 @@ const useFetch = ({
       
       setError(error);
       errMessage(error);
+      if(error?.response?.status === 401){
+        authDispatch({ type: 'LOGOUT' })
+        navigate('/register');
+      }
       
     } finally {
       setLoading(false);
