@@ -69,7 +69,7 @@ const AddDiscount = ({apigetDiscountList,onCancel}) => {
         <div className="my-[20px]">
           {" "}<div className="mb-[20px] ">نوع تخفیف</div>
           <Radio.Group name="radiogroup" defaultValue={1} value={value} onChange={(e)=>setvalue(e.target.value)}>
-            <Radio value={0}>درصدی</Radio>
+            <Radio value={2}>درصدی</Radio>
             <Radio value={1}>مبلغ</Radio>
           </Radio.Group>
         </div>

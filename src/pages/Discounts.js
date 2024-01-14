@@ -35,7 +35,6 @@ const Discounts = () => {
   const [current, setcurrent] = useState(1);
   const onChange = page => {
     setcurrent(page);
-
   };
   const columns = [
     {
@@ -47,10 +46,12 @@ const Discounts = () => {
       title: "نوع کد تخفیف",
       dataIndex: "type",
       key: "type",
-      render:(row,record)=>{
-        return(
-          <div>{row === 1 ? "مقداری":"درصدی"}</div>
-        )
+      render: (row, record) => {
+        return (
+          <div>
+            {row === 1 ? "مقداری" : "درصدی"}
+          </div>
+        );
       }
     },
     {
@@ -85,7 +86,7 @@ const Discounts = () => {
     trigger: true,
     setter: setdiscount,
     argFunc: res => {
-     setPageSize(res[0].count)
+      setPageSize(res[0].count);
     },
     errMessage: () => {}
   });
@@ -97,12 +98,12 @@ const Discounts = () => {
     },
     noHeader: false,
     trigger: false,
-    caller:apigetDiscountList,
+    caller: apigetDiscountList,
     argFunc: res => {
-     toast.success("کد تخفیف با موفقیت پاک شد")
+      toast.success("کد تخفیف با موفقیت پاک شد");
     },
     errMessage: () => {
-      setdiscountId()
+      setdiscountId();
     }
   });
   useEffect(
@@ -134,27 +135,30 @@ const Discounts = () => {
     url: `api/Discount/Search/${searchtext}`,
     noHeader: false,
     trigger: false,
-    setter:setdiscount,
-   
+    setter: setdiscount,
+
     argFunc: res => {
       console.log(res);
     },
     errMessage: () => {}
   });
-  
-  useEffect(() => {
-    if(searchtext.length > 0){
-      apiSearchDiscountList.reFetch()
-    }else{
-      apigetDiscountList.reFetch()
-    }
-  }, [searchtext])
+
+  useEffect(
+    () => {
+      if (searchtext.length > 0) {
+        apiSearchDiscountList.reFetch();
+      } else {
+        apigetDiscountList.reFetch();
+      }
+    },
+    [searchtext]
+  );
   return (
     <Card>
       <Title title=" کد تخفیف" />
       <div className="flex justify-between">
-      <SearchInput setsearchtext={setsearchtext}  />
-        {" "}<Button
+        <SearchInput setsearchtext={setsearchtext} />{" "}
+        <Button
           onClick={showModal}
           varient="primary"
           className="flex gap-[8px] items-center mb-[40px]"
@@ -163,12 +167,16 @@ const Discounts = () => {
           <div> اضافه کردن کد تخفیف</div>
         </Button>
       </div>
-     
 
       <PrimayTable dataSource={discount} columns={columns} />
       <div className="flex justify-center items-center mt-[20px]">
-              <Pagination hideOnSinglePage={true} current={current} onChange={onChange} total={PageSize} />
-              </div>
+        <Pagination
+          hideOnSinglePage={true}
+          current={current}
+          onChange={onChange}
+          total={PageSize}
+        />
+      </div>
       <Modal
         title="اضافه کردن کد تخفیف"
         footer={null}
