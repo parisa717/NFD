@@ -112,13 +112,15 @@ const OrderManagment = () => {
 
     {
       title: "تاریخ سفارش ",
-      dataIndex: "cratedAt",
-      key: "cratedAt",
+      dataIndex: "createAt",
+      key: "createAt",
       render: row => {
-        const date = moment.from(row, "fa", "YYYY/MM/DD").format("YYYY/MM/DD");
+        const date =moment(row).locale("fa").format("YYYY/MM/DD");
+
+        console.log("row",row)
         return (
           <div>
-            {row}
+            {date}
           </div>
         );
       }

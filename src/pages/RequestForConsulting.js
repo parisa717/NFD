@@ -14,20 +14,7 @@ import SearchInput from "../components/share/SearchInput";
 import PrimayTable from "../components/share/Table";
 import Title from "../components/share/Title";
 import useFetch from "../Hooks/useAxios";
-const dataSource = [
-  {
-    key: "1",
-    name: "Mike",
-    age: 32,
-    address: "10 Downing Street"
-  },
-  {
-    key: "2",
-    name: "John",
-    age: 42,
-    address: "10 Downing Street"
-  }
-];
+
 const RequestForConsulting = () => {
   const [ConsulingerList, setConsulingList] = useState([])
   const [PageSize, setPageSize] = useState();
@@ -52,6 +39,11 @@ const RequestForConsulting = () => {
     errMessage: () => {}
   });
   const columns = [
+    {
+      title: "نام و نام خانوادگی",
+      dataIndex: "fullName",
+      key: "fullName"
+    },
     {
       title: "شماره تماس",
       dataIndex: "phone",
