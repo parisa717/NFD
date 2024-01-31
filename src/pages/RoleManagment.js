@@ -76,6 +76,9 @@ const [roles, setroles] = useState()
     },
     errMessage: () => {}
   });
+  useEffect(() => {
+    apigetRoleList.reFetch()
+  }, [current])
   const apideleteRoleList = useFetch({
     method: "post",
     url: "api/Role/Delete",

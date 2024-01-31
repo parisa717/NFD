@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal, Pagination } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateCategory from "../components/layouts/Categories/CreateCategory";
 import CreateFeatures from "../components/layouts/Fetures/CreateFeatures";
 import Button from "../components/share/Button";
@@ -85,7 +85,7 @@ const EventPaymentManagement = () => {
     method: "get",
     url: "api/PaymentLog/All",
     noHeader: false,
-    trigger: true,
+    trigger: false,
     params:{
       pageNumber:current,
       size:10
@@ -96,6 +96,11 @@ const EventPaymentManagement = () => {
     },
     errMessage: () => {}
   });
+  useEffect(() => {
+    apigetCatList.reFetch()
+  }, [current])
+  
+
   return (
     <Card>
                <Title title=' مدیریت پرداخت ها'/>

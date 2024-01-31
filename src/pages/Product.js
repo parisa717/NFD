@@ -62,7 +62,7 @@ const Product = () => {
     }else{
       apigetproductList.reFetch()
     }
-  }, [searchtext])
+  }, [current,searchtext])
   return (
     <Card>
       <Title title=" محصول" />

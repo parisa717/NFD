@@ -16,25 +16,24 @@ import Title from "../components/share/Title";
 import useFetch from "../Hooks/useAxios";
 
 const RequestForConsulting = () => {
-  const [ConsulingerList, setConsulingList] = useState([])
+  const [ConsulingerList, setConsulingList] = useState([]);
   const [PageSize, setPageSize] = useState();
   const [current, setcurrent] = useState(1);
   const onChange = page => {
     setcurrent(page);
-
   };
   const apigetCatList = useFetch({
     method: "get",
     url: "api/Counseling/All",
     noHeader: false,
     trigger: false,
-    params:{
-      pageNumber:current,
-      size:10
+    params: {
+      pageNumber: current,
+      size: 10
     },
     setter: setConsulingList,
     argFunc: res => {
-      setPageSize(res[0].count)
+      setPageSize(res[0].count);
     },
     errMessage: () => {}
   });
@@ -53,54 +52,53 @@ const RequestForConsulting = () => {
       title: "تاریخ درخواست",
       dataIndex: "name",
       key: "name"
-    },
-   
-  
+    }
   ];
 
   const [searchtext, setsearchtext] = useState("");
-  useEffect(() => {
-    if(searchtext.length > 0){
-      apiSearchCatList.reFetch()
-    }else{
-      apigetCatList.reFetch()
-    }
-  }, [searchtext])
+  useEffect(
+    () => {
+      if (searchtext.length > 0) {
+        apiSearchCatList.reFetch();
+      } else {
+        apigetCatList.reFetch();
+      }
+    },
+    [searchtext,current]
+  );
   const apiSearchCatList = useFetch({
     method: "get",
     url: `api/Counseling/Search/${searchtext}`,
     noHeader: false,
     trigger: false,
-    setter:setConsulingList,
-   
+    setter: setConsulingList,
+
     argFunc: res => {
       console.log(res);
     },
     errMessage: () => {}
   });
 
+
   return (
     <Card>
-       <Title title=' درخواست های مشاوره'/>
+       <Title title=" درخواست های مشاوره" />
        <div className="flex justify-between items-end">
-      <SearchInput setsearchtext={setsearchtext}  />
-
-       
-      </div>
-<div className="mt-[40px]">
-
-<PrimayTable
-        dataSource={ConsulingerList}
-        columns={columns}
-       
-      />
-</div>
+        <SearchInput setsearchtext={setsearchtext} />
+       </div>
+       <div className="mt-[40px]">
+        <PrimayTable dataSource={ConsulingerList} columns={columns} />
+       </div>
        <div className="flex justify-center items-center mt-[20px]">
-              <Pagination hideOnSinglePage={true} current={current} onChange={onChange} total={PageSize} />
-              </div>
+        <Pagination
+          hideOnSinglePage={true}
+          current={current}
+          onChange={onChange}
+          total={PageSize}
+        />
+       </div>
     </Card>
   );
 };
 
-
-export default RequestForConsulting
+export default RequestForConsulting;

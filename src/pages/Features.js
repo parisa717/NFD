@@ -48,6 +48,9 @@ const Features = () => {
     errMessage: () => {}
   });
   useEffect(() => {
+    apiPropertyList.reFetch()
+  }, [current])
+  useEffect(() => {
     if(deleteFet){
       apideleteFet.reFetch()
     }
@@ -107,6 +110,7 @@ const Features = () => {
     setIsModalOpen(false);
   };
 
+  
   return (
     <Card>
       <Title title="ویژگی ها" />

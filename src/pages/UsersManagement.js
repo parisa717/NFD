@@ -54,6 +54,10 @@ const UsersManagement = () => {
     },
     errMessage: () => {}
   });
+  useEffect(() => {
+    apigetuserList.reFetch()
+  }, [current])
+  
   const [roles, setroles] = useState();
   const [userroles, setuserroles] = useState();
   const [userId, setuserId] = useState();

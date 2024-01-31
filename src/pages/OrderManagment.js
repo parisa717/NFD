@@ -1,6 +1,6 @@
 import { Modal, Pagination } from "antd";
 import moment from "jalali-moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OrderItems from "../components/layouts/order/OrderItems";
 import Button from "../components/share/Button";
 import Card from "../components/share/Card";
@@ -230,7 +230,7 @@ const OrderManagment = () => {
     method: "get",
     url: "api/Order/AllOrders",
     noHeader: false,
-    trigger: true,
+    trigger: false,
     params: {
       pageNumber: current,
       size: 12
@@ -242,6 +242,10 @@ const OrderManagment = () => {
 
     errMessage: () => {}
   });
+  useEffect(() => {
+    apigetOrder.reFetch()
+  }, [current])
+  
   return (
    <>
    {!apigetOrder.loading ? <Card>

@@ -151,8 +151,9 @@ const Discounts = () => {
         apigetDiscountList.reFetch();
       }
     },
-    [searchtext]
+    [searchtext,current]
   );
+
   return (
     <Card>
       <Title title=" کد تخفیف" />
